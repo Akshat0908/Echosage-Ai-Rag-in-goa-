@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mic, ArrowUpRight, Play, Github, Quote } from "lucide-react";
-import heroBeach from "@/assets/hero-beach.jpg";
+import heroBeach from "@/assets/hero-3d.jpg";
 import { Tilt } from "@/components/site/tilt";
 import {
   pipeline,
@@ -70,8 +70,8 @@ function Index() {
 
 function Nav() {
   return (
-    <header className="absolute inset-x-0 top-0 z-30">
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6">
+    <header className="sticky top-0 z-50 border-b-2 border-ink bg-card shadow-[0_6px_0_0_var(--ink)]">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
         <a href="#top" className="flex items-center gap-3">
           <span className="grid h-11 w-11 place-items-center rounded-xl bg-sun font-display text-2xl leading-none font-black text-sun-foreground shadow-[0_6px_0_0_var(--ink)]">
             R
