@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Mic, ArrowUpRight, Play, Github, Quote } from "lucide-react";
 import heroBeach from "@/assets/hero-beach.jpg";
+import { Tilt } from "@/components/site/tilt";
 import {
   pipeline,
   strategies,
