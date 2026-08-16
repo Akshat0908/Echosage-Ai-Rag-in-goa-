@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Mic, ArrowUpRight, Play, Github, Quote } from "lucide-react";
+import { ArrowUpRight, Play, Github, Quote } from "lucide-react";
+import { DemoConsole } from "@/components/site/demo-console";
 import heroBeach from "@/assets/hero-3d.jpg";
 import chunk3d from "@/assets/chunk-3d.png";
 import speed3d from "@/assets/speed-3d.png";
@@ -286,72 +287,11 @@ function Pipeline() {
   );
 }
 
-const transcript = [
-  { who: "you", text: "Which ocean current keeps the Goan coast warm in winter?" },
-  { who: "sys", text: "STT 41ms · retrieved 4 passages · support 0.87" },
-  {
-    who: "ai",
-    text: "The warm surface flow of the North Indian Ocean monsoon gyre keeps coastal temperatures mild through winter. [p_88214]",
-  },
-  { who: "you", text: "Who won the 2031 world cup?" },
-  { who: "ai", text: "Not in the dataset — I'm not going to guess. (abstained)" },
-];
-
 function Demo() {
-  const [listening, setListening] = useState(false);
   return (
-    <section id="demo" className="border-y-2 border-ink bg-sand">
-      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-24 lg:grid-cols-2">
-        <div>
-          <SectionHead kicker="demo" title="Hold the mic. Ask badly. It copes." />
-          <p className="max-w-md leading-relaxed text-muted-foreground">
-            Half-sentences, code-switched Hindi, background surf — the harness normalises
-            the transcript, plans a retrieval call, and either cites or abstains. No
-            confident nonsense.
-          </p>
-          <button
-            onClick={() => setListening((v) => !v)}
-            className="relative mt-10 inline-flex h-28 w-28 items-center justify-center rounded-full border-2 border-ink bg-coral text-primary-foreground shadow-[0_8px_0_0_var(--ink)] transition-transform active:translate-y-1"
-            aria-pressed={listening}
-          >
-            {listening && (
-              <span className="pulse-ring absolute inset-0 rounded-full border-2 border-coral" />
-            )}
-            <Mic className="h-9 w-9" />
-          </button>
-          <p className="mt-4 font-mono text-[11px] tracking-[0.2em] uppercase">
-            {listening ? "listening…" : "tap to simulate a query"}
-          </p>
-        </div>
-
-        <Tilt max={6} lift={6}>
-        <div className="rounded-3xl border-2 border-ink bg-ink p-6 shadow-[0_16px_0_0_var(--primary),0_40px_50px_-28px_rgba(0,0,0,.6)]">
-          <div className="flex items-center gap-2">
-            <span className="h-3 w-3 rounded-full bg-coral" />
-            <span className="h-3 w-3 rounded-full bg-sun" />
-            <span className="h-3 w-3 rounded-full bg-primary" />
-            <span className="ml-3 font-mono text-[10px] tracking-[0.2em] text-sand uppercase">
-              trace · session 04
-            </span>
-          </div>
-          <div className="mt-6 space-y-4">
-            {transcript.map((t, i) => (
-              <div
-                key={i}
-                className={
-                  t.who === "sys"
-                    ? "font-mono text-[11px] tracking-wide text-sun"
-                    : t.who === "you"
-                      ? "ml-auto max-w-[85%] rounded-2xl rounded-br-sm bg-sun px-4 py-3 text-sm text-sun-foreground"
-                      : "max-w-[90%] rounded-2xl rounded-bl-sm border border-sand/30 px-4 py-3 text-sm text-sand"
-                }
-              >
-                {t.text}
-              </div>
-            ))}
-          </div>
-        </div>
-        </Tilt>
+    <section id="demo" className="grain border-y-2 border-ink bg-sand">
+      <div className="mx-auto max-w-7xl px-6 py-24">
+        <DemoConsole />
       </div>
     </section>
   );
