@@ -8,17 +8,17 @@ import figSiddharth from "@/assets/fig-siddharth.png";
 export const Route = createFileRoute("/team")({
   head: () => ({
     meta: [
-      { title: "The Crew — Voice RAG for HH Goa 2026" },
+      { title: "The Crew — Akshat, Suman & Siddharth · Voice RAG Goa 2026" },
       {
         name: "description",
         content:
-          "Meet the six builders behind our sub-200ms voice RAG pipeline: retrieval, STT, harness, guardrails, latency and design.",
+          "Meet the three builders behind our sub-200ms voice RAG pipeline: retrieval, harness, guardrails, STT and latency.",
       },
       { property: "og:title", content: "The Crew — Voice RAG for HH Goa 2026" },
       {
         property: "og:description",
         content:
-          "Six builders, one pipeline: speech to cited answer in under 200ms. Spin the crew carousel.",
+          "Three builders, one pipeline: speech to cited answer in under 200ms. Flip through the crew.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
