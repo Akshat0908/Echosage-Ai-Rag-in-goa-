@@ -244,7 +244,7 @@ function SectionHead({ kicker, title }: { kicker: string; title: string }) {
       <p className="font-mono text-[11px] tracking-[0.28em] text-primary uppercase">
         {kicker}
       </p>
-      <h2 className="mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black">
+      <h2 className="text-3d mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black">
         {title}
       </h2>
     </div>
@@ -257,23 +257,20 @@ function Pipeline() {
       <SectionHead kicker="the shape of it" title="Six hops, one breath." />
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {pipeline.map((p, i) => (
-          <div
-            key={p.label}
-            className="rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_6px_0_0_var(--ink)] transition-transform hover:-translate-y-1"
-          >
-            <div className="flex items-center justify-between">
-              <span className="grid h-11 w-11 place-items-center rounded-xl bg-primary text-primary-foreground">
-                <p.icon className="h-5 w-5" />
-              </span>
-              <span className="font-mono text-xs text-muted-foreground">
-                0{i + 1}
-              </span>
+          <Tilt key={p.label}>
+            <div className="gloss rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_26px_36px_-24px_rgba(0,0,0,.55)]">
+              <div className="flex items-center justify-between">
+                <span className="layer-pop grid h-12 w-12 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[0_6px_0_0_var(--ink)]">
+                  <p.icon className="h-5 w-5" />
+                </span>
+                <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>
+              </div>
+              <h3 className="mt-5 font-display text-2xl leading-none font-black">
+                {p.label}
+              </h3>
+              <p className="mt-2 font-mono text-xs text-muted-foreground">{p.note}</p>
             </div>
-            <h3 className="mt-5 font-display text-2xl leading-none font-black">
-              {p.label}
-            </h3>
-            <p className="mt-2 font-mono text-xs text-muted-foreground">{p.note}</p>
-          </div>
+          </Tilt>
         ))}
       </div>
     </section>
