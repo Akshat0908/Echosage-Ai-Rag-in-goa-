@@ -1,28 +1,24 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowUpRight } from "lucide-react";
-import { Carousel3D, type Member } from "@/components/site/carousel3d";
-import t1 from "@/assets/team-1.png";
-import t2 from "@/assets/team-2.png";
-import t3 from "@/assets/team-3.png";
-import t4 from "@/assets/team-4.png";
-import t5 from "@/assets/team-5.png";
-import t6 from "@/assets/team-6.png";
-import hero from "@/assets/hero-3d.jpg";
+import { CrewHero, type Crew } from "@/components/site/crew-hero";
+import figAkshat from "@/assets/fig-akshat.png";
+import figSuman from "@/assets/fig-suman.png";
+import figSiddharth from "@/assets/fig-siddharth.png";
 
 export const Route = createFileRoute("/team")({
   head: () => ({
     meta: [
-      { title: "The Crew — Voice RAG for HH Goa 2026" },
+      { title: "The Crew — Akshat, Suman & Siddharth · Voice RAG Goa 2026" },
       {
         name: "description",
         content:
-          "Meet the six builders behind our sub-200ms voice RAG pipeline: retrieval, STT, harness, guardrails, latency and design.",
+          "Meet the three builders behind our sub-200ms voice RAG pipeline: retrieval, harness, guardrails, STT and latency.",
       },
       { property: "og:title", content: "The Crew — Voice RAG for HH Goa 2026" },
       {
         property: "og:description",
         content:
-          "Six builders, one pipeline: speech to cited answer in under 200ms. Spin the crew carousel.",
+          "Three builders, one pipeline: speech to cited answer in under 200ms. Flip through the crew.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -31,42 +27,24 @@ export const Route = createFileRoute("/team")({
   component: TeamPage,
 });
 
-const members: Member[] = [
+const crew: Crew[] = [
   {
-    name: "Aarav",
-    role: "retrieval",
-    line: "Owns the six chunkers, the fusion ranker and every index rebuild.",
-    img: t1,
+    name: "Akshat Agrawal",
+    role: "Retrieval and chunking — six indexes, rank fusion, and every rebuild that keeps recall honest.",
+    src: figAkshat,
+    bg: "#F4845F",
   },
   {
-    name: "Meera",
-    role: "harness",
-    line: "Typed tool calls, retries, structured IO — nothing raw reaches the model.",
-    img: t2,
+    name: "Suman Bhandari",
+    role: "Harness and guardrails — typed tool calls, retries, grounding checks. Cited or silent, no third option.",
+    src: figSuman,
+    bg: "#6BBF7A",
   },
   {
-    name: "Kabir",
-    role: "speech",
-    line: "Sarvam STT streaming, noise handling, code-switched Hindi transcripts.",
-    img: t3,
-  },
-  {
-    name: "Isha",
-    role: "guardrails",
-    line: "Grounding checks and abstention logic. Cited or silent, no third option.",
-    img: t4,
-  },
-  {
-    name: "Rohan",
-    role: "latency",
-    line: "P50/P70/P100 benchmarking, cache warmth and the sub-200ms budget.",
-    img: t5,
-  },
-  {
-    name: "Tara",
-    role: "design",
-    line: "The look, the demo film and everything the judges actually see.",
-    img: t6,
+    name: "Siddharth Jaiswal",
+    role: "Speech and latency — Sarvam STT streaming, code-switched transcripts, the sub-200ms budget.",
+    src: figSiddharth,
+    bg: "#6EB5FF",
   },
 ];
 
@@ -94,33 +72,44 @@ function TeamPage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b-2 border-ink">
-        <img
-          src={hero}
-          alt="Stone monument on a Goa beach"
-          width={1920}
-          height={1088}
-          className="pointer-events-none absolute inset-0 h-full w-full object-cover opacity-40"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background" />
-        <div className="relative mx-auto max-w-7xl px-6 py-20 text-center">
-          <p className="font-mono text-[11px] tracking-[0.28em] text-primary uppercase">
-            the crew
-          </p>
-          <h1 className="text-3d mt-4 font-display text-[clamp(2.8rem,8vw,6rem)] leading-[0.84] font-black">
-            SIX HEADS.
-            <br />
-            <span className="text-primary italic">one pipeline.</span>
-          </h1>
-          <p className="mx-auto mt-6 max-w-xl leading-relaxed text-muted-foreground">
-            Drag the carousel, or let it roll. Everyone here owns one hop of the voice →
-            cited answer chain.
-          </p>
-        </div>
+      <section className="border-b-2 border-ink">
+        <CrewHero crew={crew} />
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <Carousel3D members={members} />
+      <section id="crew-list" className="mx-auto max-w-7xl px-6 py-20">
+        <h1 className="text-3d font-display text-[clamp(2.4rem,7vw,5rem)] leading-[0.84] font-black">
+          THREE HEADS.
+          <br />
+          <span className="text-primary italic">one pipeline.</span>
+        </h1>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {crew.map((c) => (
+            <article
+              key={c.name}
+              className="gloss rounded-3xl border-2 border-ink bg-card p-6 shadow-[0_12px_0_0_var(--ink),0_30px_40px_-26px_rgba(0,0,0,.5)]"
+            >
+              <div
+                className="grid h-56 place-items-center rounded-2xl border-2 border-ink"
+                style={{ backgroundColor: c.bg }}
+              >
+                <img
+                  src={c.src}
+                  alt={c.name}
+                  width={768}
+                  height={1280}
+                  loading="lazy"
+                  className="h-full w-full object-contain drop-shadow-[0_14px_10px_rgba(0,0,0,.35)]"
+                />
+              </div>
+              <h2 className="mt-5 font-display text-2xl leading-none font-black">
+                {c.name}
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {c.role}
+              </p>
+            </article>
+          ))}
+        </div>
       </section>
 
       <footer className="border-t-2 border-ink bg-sand">
