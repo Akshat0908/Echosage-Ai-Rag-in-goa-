@@ -315,7 +315,8 @@ function Demo() {
           </p>
         </div>
 
-        <div className="rounded-3xl border-2 border-ink bg-ink p-6 shadow-[0_10px_0_0_var(--primary)]">
+        <Tilt max={6} lift={6}>
+        <div className="rounded-3xl border-2 border-ink bg-ink p-6 shadow-[0_16px_0_0_var(--primary),0_40px_50px_-28px_rgba(0,0,0,.6)]">
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full bg-coral" />
             <span className="h-3 w-3 rounded-full bg-sun" />
@@ -341,6 +342,7 @@ function Demo() {
             ))}
           </div>
         </div>
+        </Tilt>
       </div>
     </section>
   );
