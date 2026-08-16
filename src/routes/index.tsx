@@ -1,10 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Play, Github, Quote } from "lucide-react";
+import { ArrowUpRight, Play, Github, Quote, MicOff, Clock, Heart, Beer, PartyPopper } from "lucide-react";
 import { DemoConsole } from "@/components/site/demo-console";
 import heroBeach from "@/assets/hero-3d.jpg";
 import chunk3d from "@/assets/chunk-3d.png";
 import speed3d from "@/assets/speed-3d.png";
+import footerGoa from "@/assets/footer-goa.jpg";
 import { Tilt } from "@/components/site/tilt";
 import {
   pipeline,
@@ -463,26 +464,97 @@ function Deliverables() {
   );
 }
 
+const roasts = [
+  "Built in 9 days. Judged in 9 seconds. No pressure.",
+  "If we don't get shortlisted, at least the website slaps.",
+  "Latency under 200ms. Our sleep schedule? Not so much.",
+  "Powered by caffeine, deadlines, and the fear of rejection.",
+  "Ask badly. We dare you.",
+];
+
 function Footer() {
+  const [roast, setRoast] = useState(0);
+  useEffect(() => {
+    const id = setInterval(() => setRoast((r) => (r + 1) % roasts.length), 4200);
+    return () => clearInterval(id);
+  }, []);
+
   return (
-    <footer className="mx-auto max-w-7xl px-6 py-16">
-      <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
-        <div>
-          <p className="text-3d font-display text-[clamp(2.6rem,7vw,5rem)] leading-[0.85] font-black">
-            SEE YOU
-            <br />
-            <span className="text-primary italic">in goa.</span>
-          </p>
-          <p className="mt-4 font-mono text-[11px] tracking-[0.2em] uppercase">
-            Hacker House Goa 2026 · Task 2 · #RAGInGoa
-          </p>
+    <footer className="relative overflow-hidden border-t-2 border-ink">
+      <img
+        src={footerGoa}
+        alt="Neon Goa beach shack at sunset with RAG stone letters, surfboards, and a microphone"
+        width={1920}
+        height={1080}
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,color-mix(in_oklab,var(--background)_78%,transparent)_40%,transparent_72%)]" />
+
+      <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-36">
+        <div className="flex flex-col items-start justify-between gap-12 lg:flex-row lg:items-end">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 py-1.5 shadow-[0_4px_0_0_var(--ink)]">
+              <PartyPopper className="h-3.5 w-3.5 text-sun-foreground" />
+              <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-sun-foreground uppercase">
+                shortlist us or the coconut stays hidden
+              </span>
+            </div>
+            <p className="text-3d mt-6 font-display text-[clamp(3rem,9vw,7rem)] leading-[0.8] font-black">
+              SEE YOU
+              <br />
+              <span className="text-primary italic">on the sand.</span>
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <span className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] uppercase shadow-[0_3px_0_0_var(--ink)]">
+                <MicOff className="h-3 w-3" /> off-topic queries
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] uppercase shadow-[0_3px_0_0_var(--ink)]">
+                <Clock className="h-3 w-3" /> 200ms budget
+              </span>
+              <span className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] uppercase shadow-[0_3px_0_0_var(--ink)]">
+                <Heart className="h-3 w-3 text-coral" /> built with panic
+              </span>
+            </div>
+            <div className="mt-8 overflow-hidden rounded-2xl border-2 border-ink bg-card/95 p-5 shadow-[0_8px_0_0_var(--ink)] backdrop-blur">
+              <div className="flex gap-4">
+                <Quote className="mt-0.5 h-5 w-5 shrink-0 text-coral" />
+                <div className="min-h-[3.5rem]">
+                  <p
+                    key={roast}
+                    className="animate-roast-in text-base font-medium leading-relaxed text-foreground"
+                  >
+                    {roasts[roast]}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col items-start gap-5 lg:items-end">
+            <div className="rounded-2xl border-2 border-ink bg-primary p-5 text-primary-foreground shadow-[0_8px_0_0_var(--ink)]">
+              <p className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-80">
+                submission drops
+              </p>
+              <p className="font-display text-3xl font-black">22 Aug · 11:59 PM</p>
+              <p className="mt-1 font-mono text-[10px] tracking-[0.14em] uppercase opacity-70">
+                #RAGInGoa · every platform · every member
+              </p>
+            </div>
+            <a
+              href="#top"
+              className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-6 py-3 font-mono text-xs tracking-[0.2em] text-sun-foreground uppercase shadow-[0_5px_0_0_var(--ink)] transition-transform hover:-translate-y-0.5"
+            >
+              Back to top <ArrowUpRight className="h-4 w-4" />
+            </a>
+            <p className="font-mono text-[10px] tracking-[0.18em] text-background/80 uppercase drop-shadow-[0_1px_2px_rgba(0,0,0,.5)]">
+              Hacker House Goa 2026 · Task 2 · made with <Beer className="mx-1 inline h-3 w-3" />
+              and deadlines
+            </p>
+          </div>
         </div>
-        <a
-          href="#top"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-6 py-3 font-mono text-xs tracking-[0.2em] text-sun-foreground uppercase shadow-[0_5px_0_0_var(--ink)]"
-        >
-          Back to top <ArrowUpRight className="h-4 w-4" />
-        </a>
       </div>
     </footer>
   );
