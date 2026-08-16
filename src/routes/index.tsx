@@ -359,7 +359,15 @@ function Demo() {
 
 function Chunking() {
   return (
-    <section id="chunking" className="mx-auto max-w-7xl px-6 py-24">
+    <section id="chunking" className="relative mx-auto max-w-7xl px-6 py-24">
+      <img
+        src={chunk3d}
+        alt="3D stack of stone slabs split into layers"
+        width={1024}
+        height={1024}
+        loading="lazy"
+        className="bob pointer-events-none absolute -top-6 right-2 hidden w-64 drop-shadow-[0_24px_18px_rgba(0,0,0,.28)] lg:block xl:w-80"
+      />
       <SectionHead kicker="chunking" title="Not one splitter. Six, fused." />
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {strategies.map((s) => (
@@ -396,7 +404,15 @@ function Latency() {
         <h2 className="text-3d-sun mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black text-sand">
           500 queries. Everything under 200ms.
         </h2>
-        <div className="mt-12 grid gap-5 md:grid-cols-3">
+        <div className="relative mt-12 grid gap-5 md:grid-cols-3">
+          <img
+            src={speed3d}
+            alt="3D gauge dial with a surfboard"
+            width={1024}
+            height={1024}
+            loading="lazy"
+            className="bob pointer-events-none absolute -top-40 right-0 hidden w-52 drop-shadow-[0_26px_20px_rgba(0,0,0,.5)] xl:block"
+          />
           {latency.map((l) => (
             <Tilt key={l.label} max={9}>
               <div className="gloss rounded-2xl border-2 border-sand/30 bg-white/5 p-7 shadow-[0_12px_0_0_rgba(0,0,0,.35)]">
