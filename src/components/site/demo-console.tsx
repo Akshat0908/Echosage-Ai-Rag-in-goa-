@@ -144,6 +144,18 @@ export function DemoConsole() {
               "linear-gradient(135deg, var(--ink) 0%, color-mix(in oklab, var(--ink) 70%, black) 100%)",
           }}
         >
+          <HudCorners />
+          {listening && (
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div
+                className="holo-sweep h-24 w-full"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent, color-mix(in oklab, var(--sun) 22%, transparent), transparent)",
+                }}
+              />
+            </div>
+          )}
           {/* header */}
           <div className="flex items-center justify-between border-b border-primary/40 pb-5">
             <div className="flex gap-2">
@@ -151,10 +163,15 @@ export function DemoConsole() {
               <span className="h-3 w-3 rounded-full border border-ink bg-sun" />
               <span className="h-3 w-3 rounded-full border border-ink bg-primary" />
             </div>
-            <span className="font-mono text-[10px] tracking-[0.3em] text-sand/50 uppercase">
-              trace · session 0{runIdx + 4}
-            </span>
+            <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-sand/50 uppercase">
+              <span
+                className={`h-2 w-2 rounded-full ${listening ? "hud-blink bg-sun" : "bg-sand/30"}`}
+              />
+              <span>trace · session 0{runIdx + 4}</span>
+            </div>
           </div>
+
+          <Telemetry step={step} listening={listening} done={done} />
 
           {/* latency rail */}
           <div className="mt-6">
@@ -232,6 +249,15 @@ export function DemoConsole() {
 
             <Reveal on={step >= 4}>
               <div className="space-y-1.5">
+                <div className="mb-3 flex items-stretch gap-3">
+                  <VectorRadar active={step >= 3} />
+                  <div className="flex-1 space-y-1 font-mono text-[9px] leading-relaxed tracking-[0.14em] text-sand/45 uppercase">
+                    <p className="text-sun">vector space · 768d → hnsw ef=96</p>
+                    <p>candidates 2,048 · fused 4 · dropped 2,044</p>
+                    <p>rrf k=60 · cross-encoder pass 1</p>
+                    <p className="text-sand/70">index shard goa-02 · warm</p>
+                  </div>
+                </div>
                 {run.passages.map((p) => (
                   <div
                     key={p.id}
