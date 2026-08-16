@@ -313,7 +313,7 @@ export function DemoConsole() {
           />
         </div>
 
-        <span className="absolute top-10 -left-6 hidden -rotate-90 border-2 border-ink bg-sun px-3 py-1 font-mono text-[9px] font-bold tracking-[0.12em] text-sun-foreground uppercase shadow-[3px_3px_0_0_var(--ink)] xl:block">
+        <span className="absolute top-24 -left-[4.75rem] hidden -rotate-90 border-2 border-ink bg-sun px-3 py-1 font-mono text-[9px] font-bold tracking-[0.12em] text-sun-foreground uppercase shadow-[3px_3px_0_0_var(--ink)] 2xl:block">
           calibration active
         </span>
       </div>
