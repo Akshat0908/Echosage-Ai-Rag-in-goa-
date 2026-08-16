@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Mic, ArrowUpRight, Play, Github, Quote } from "lucide-react";
+import { ArrowUpRight, Play, Github, Quote } from "lucide-react";
+import { DemoConsole } from "@/components/site/demo-console";
 import heroBeach from "@/assets/hero-3d.jpg";
 import chunk3d from "@/assets/chunk-3d.png";
 import speed3d from "@/assets/speed-3d.png";
