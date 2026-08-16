@@ -352,18 +352,19 @@ function Chunking() {
       <SectionHead kicker="chunking" title="Not one splitter. Six, fused." />
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {strategies.map((s) => (
-          <article
-            key={s.tag}
-            className="group rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_6px_0_0_var(--ink)] transition-transform hover:-translate-y-1"
-          >
-            <span className="font-mono text-xs tracking-[0.2em] text-primary">
-              {s.tag}
-            </span>
-            <h3 className="mt-3 font-display text-2xl leading-none font-black">
-              {s.name}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
-          </article>
+          <Tilt key={s.tag} max={8}>
+            <article className="gloss h-full rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_26px_36px_-24px_rgba(0,0,0,.5)]">
+              <span className="inline-block rounded-md border-2 border-ink bg-sun px-2 py-0.5 font-mono text-xs tracking-[0.2em] text-sun-foreground shadow-[0_4px_0_0_var(--sun-deep)]">
+                {s.tag}
+              </span>
+              <h3 className="mt-4 font-display text-2xl leading-none font-black">
+                {s.name}
+              </h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                {s.body}
+              </p>
+            </article>
+          </Tilt>
         ))}
       </div>
       <p className="mt-8 max-w-2xl font-mono text-xs leading-relaxed text-muted-foreground">
