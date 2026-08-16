@@ -382,21 +382,23 @@ function Latency() {
         <p className="font-mono text-[11px] tracking-[0.28em] text-sun uppercase">
           measured, not vibed
         </p>
-        <h2 className="mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black">
+        <h2 className="text-3d-sun mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black text-sand">
           500 queries. Everything under 200ms.
         </h2>
         <div className="mt-12 grid gap-5 md:grid-cols-3">
           {latency.map((l) => (
-            <div key={l.label} className="rounded-2xl border-2 border-sand/25 p-7">
-              <p className="font-mono text-xs tracking-[0.25em] text-sun uppercase">
-                {l.label}
-              </p>
-              <p className="mt-3 font-display text-6xl leading-none font-black">
-                {l.value}
-                <span className="text-2xl">ms</span>
-              </p>
-              <p className="mt-2 font-mono text-[11px] text-sand/70">{l.note}</p>
-            </div>
+            <Tilt key={l.label} max={9}>
+              <div className="gloss rounded-2xl border-2 border-sand/30 bg-white/5 p-7 shadow-[0_12px_0_0_rgba(0,0,0,.35)]">
+                <p className="font-mono text-xs tracking-[0.25em] text-sun uppercase">
+                  {l.label}
+                </p>
+                <p className="text-3d-sun layer-pop mt-3 font-display text-6xl leading-none font-black text-sand">
+                  {l.value}
+                  <span className="text-2xl">ms</span>
+                </p>
+                <p className="mt-2 font-mono text-[11px] text-sand/70">{l.note}</p>
+              </div>
+            </Tilt>
           ))}
         </div>
         <div className="mt-12 space-y-4">
