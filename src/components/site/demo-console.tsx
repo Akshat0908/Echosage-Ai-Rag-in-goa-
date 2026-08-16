@@ -112,21 +112,12 @@ export function DemoConsole() {
           confident nonsense.
         </p>
 
-        <div className="mt-10 flex items-center gap-6">
-          <button
+        <div className="mt-10 flex flex-wrap items-center gap-8">
+          <MicOrb
+            listening={listening}
+            done={done}
             onClick={done || listening ? reset : start}
-            aria-pressed={listening}
-            className="group relative grid h-32 w-32 place-items-center rounded-full border-4 border-ink bg-coral text-primary-foreground shadow-[8px_8px_0_0_var(--ink)] transition-transform active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_var(--ink)]"
-          >
-            {listening && (
-              <span className="pulse-ring absolute inset-0 rounded-full border-4 border-coral" />
-            )}
-            {listening || done ? (
-              <Square className="h-10 w-10 fill-current" />
-            ) : (
-              <Mic className="h-12 w-12" strokeWidth={2.4} />
-            )}
-          </button>
+          />
 
           <div>
             <Waveform active={listening} />
@@ -136,6 +127,9 @@ export function DemoConsole() {
                 : done
                   ? "tap for the next query"
                   : "tap to simulate a query"}
+            </p>
+            <p className="mt-1 font-mono text-[9px] tracking-[0.2em] text-muted-foreground uppercase">
+              48khz · 16-bit · vad on · {listening ? "stream open" : "stream idle"}
             </p>
           </div>
         </div>
@@ -150,6 +144,18 @@ export function DemoConsole() {
               "linear-gradient(135deg, var(--ink) 0%, color-mix(in oklab, var(--ink) 70%, black) 100%)",
           }}
         >
+          <HudCorners />
+          {listening && (
+            <div className="pointer-events-none absolute inset-0 overflow-hidden">
+              <div
+                className="holo-sweep h-24 w-full"
+                style={{
+                  background:
+                    "linear-gradient(180deg, transparent, color-mix(in oklab, var(--sun) 22%, transparent), transparent)",
+                }}
+              />
+            </div>
+          )}
           {/* header */}
           <div className="flex items-center justify-between border-b border-primary/40 pb-5">
             <div className="flex gap-2">
@@ -157,10 +163,15 @@ export function DemoConsole() {
               <span className="h-3 w-3 rounded-full border border-ink bg-sun" />
               <span className="h-3 w-3 rounded-full border border-ink bg-primary" />
             </div>
-            <span className="font-mono text-[10px] tracking-[0.3em] text-sand/50 uppercase">
-              trace · session 0{runIdx + 4}
-            </span>
+            <div className="flex items-center gap-3 font-mono text-[10px] tracking-[0.3em] text-sand/50 uppercase">
+              <span
+                className={`h-2 w-2 rounded-full ${listening ? "hud-blink bg-sun" : "bg-sand/30"}`}
+              />
+              <span>trace · session 0{runIdx + 4}</span>
+            </div>
           </div>
+
+          <Telemetry step={step} listening={listening} done={done} />
 
           {/* latency rail */}
           <div className="mt-6">
@@ -238,6 +249,15 @@ export function DemoConsole() {
 
             <Reveal on={step >= 4}>
               <div className="space-y-1.5">
+                <div className="mb-3 flex items-stretch gap-3">
+                  <VectorRadar active={step >= 3} />
+                  <div className="flex-1 space-y-1 font-mono text-[9px] leading-relaxed tracking-[0.14em] text-sand/45 uppercase">
+                    <p className="text-sun">vector space · 768d → hnsw ef=96</p>
+                    <p>candidates 2,048 · fused 4 · dropped 2,044</p>
+                    <p>rrf k=60 · cross-encoder pass 1</p>
+                    <p className="text-sand/70">index shard goa-02 · warm</p>
+                  </div>
+                </div>
                 {run.passages.map((p) => (
                   <div
                     key={p.id}
@@ -337,6 +357,185 @@ function Reveal({ on, children }: { on: boolean; children: React.ReactNode }) {
 }
 
 const BARS = 28;
+
+function MicOrb({
+  listening,
+  done,
+  onClick,
+}: {
+  listening: boolean;
+  done: boolean;
+  onClick: () => void;
+}) {
+  const [t, setT] = useState(0);
+  useEffect(() => {
+    if (!listening) return;
+    const id = window.setInterval(() => setT((v) => v + 1), 80);
+    return () => window.clearInterval(id);
+  }, [listening]);
+
+  const RADIAL = 36;
+
+  return (
+    <div className="scene relative h-40 w-40 shrink-0">
+      {/* orbit rings */}
+      <div className="pointer-events-none absolute inset-0 grid place-items-center [transform-style:preserve-3d]">
+        <span
+          className={`absolute h-36 w-36 rounded-full border border-sun/50 ${listening ? "orbit-x" : ""}`}
+          style={{ transform: "rotateX(72deg)" }}
+        />
+        <span
+          className={`absolute h-32 w-32 rounded-full border border-primary/60 ${listening ? "orbit-y" : ""}`}
+          style={{ transform: "rotateY(70deg)" }}
+        />
+      </div>
+
+      {/* radial level meter */}
+      <svg
+        viewBox="0 0 100 100"
+        className="pointer-events-none absolute inset-0 h-full w-full"
+        aria-hidden
+      >
+        {Array.from({ length: RADIAL }).map((_, i) => {
+          const a = (i / RADIAL) * Math.PI * 2;
+          const amp = listening
+            ? 4 + Math.abs(Math.sin((i + t) * 0.55)) * 9
+            : 2.5;
+          const r0 = 36;
+          const r1 = r0 + amp;
+          return (
+            <line
+              key={i}
+              x1={50 + Math.cos(a) * r0}
+              y1={50 + Math.sin(a) * r0}
+              x2={50 + Math.cos(a) * r1}
+              y2={50 + Math.sin(a) * r1}
+              stroke={i % 6 === 0 ? "var(--coral)" : "var(--sun)"}
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity={listening ? 0.95 : 0.35}
+            />
+          );
+        })}
+      </svg>
+
+      {listening && (
+        <span className="pulse-ring pointer-events-none absolute inset-3 rounded-full border-2 border-coral" />
+      )}
+
+      <button
+        onClick={onClick}
+        aria-pressed={listening}
+        className="group absolute inset-6 grid place-items-center rounded-full border-4 border-ink text-sun-foreground shadow-[8px_8px_0_0_var(--ink)] transition-transform active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_var(--ink)]"
+        style={{
+          background: listening
+            ? "radial-gradient(circle at 32% 26%, color-mix(in oklab, var(--sun) 92%, white), var(--coral) 78%)"
+            : "radial-gradient(circle at 32% 26%, color-mix(in oklab, var(--coral) 78%, white), var(--coral) 70%)",
+        }}
+      >
+        <span
+          className="pointer-events-none absolute inset-0 rounded-full opacity-70"
+          style={{
+            background:
+              "linear-gradient(160deg, rgba(255,255,255,.55) 0%, transparent 42%)",
+          }}
+        />
+        {listening || done ? (
+          <Square className="relative h-8 w-8 fill-current" />
+        ) : (
+          <Mic className="relative h-10 w-10" strokeWidth={2.4} />
+        )}
+      </button>
+
+      <span className="absolute -right-1 -bottom-1 rounded-full border-2 border-ink bg-card px-2 py-0.5 font-mono text-[8px] font-bold tracking-[0.16em] uppercase">
+        {listening ? "rec" : "idle"}
+      </span>
+    </div>
+  );
+}
+
+function HudCorners() {
+  const base =
+    "pointer-events-none absolute h-6 w-6 border-sun/50";
+  return (
+    <>
+      <span className={`${base} top-3 left-3 border-t-2 border-l-2 rounded-tl-lg`} />
+      <span className={`${base} top-3 right-3 border-t-2 border-r-2 rounded-tr-lg`} />
+      <span className={`${base} bottom-3 left-3 border-b-2 border-l-2 rounded-bl-lg`} />
+      <span className={`${base} right-3 bottom-3 border-r-2 border-b-2 rounded-br-lg`} />
+    </>
+  );
+}
+
+function Telemetry({
+  step,
+  listening,
+  done,
+}: {
+  step: number;
+  listening: boolean;
+  done: boolean;
+}) {
+  const items = [
+    { k: "gpu", v: listening ? "0.42 tflop" : "idle" },
+    { k: "tok/s", v: done ? "312" : listening ? `${120 + step * 34}` : "000" },
+    { k: "queue", v: listening ? "1" : "0" },
+    { k: "cache", v: done ? "hit" : "warm" },
+  ];
+  return (
+    <div className="mt-4 grid grid-cols-4 gap-2">
+      {items.map((i) => (
+        <div
+          key={i.k}
+          className="rounded-md border border-primary/30 bg-black/25 px-2 py-1.5"
+        >
+          <p className="font-mono text-[8px] tracking-[0.2em] text-sand/40 uppercase">
+            {i.k}
+          </p>
+          <p className="font-mono text-[11px] text-sun tabular-nums">{i.v}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+const DOTS = Array.from({ length: 26 }).map((_, i) => ({
+  x: 12 + ((i * 37) % 76),
+  y: 12 + ((i * 53) % 76),
+  hot: i % 7 === 0,
+}));
+
+function VectorRadar({ active }: { active: boolean }) {
+  return (
+    <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-lg border border-primary/40 bg-black/30">
+      <svg viewBox="0 0 100 100" className="h-full w-full" aria-hidden>
+        <circle cx="50" cy="50" r="44" fill="none" stroke="var(--sun)" strokeOpacity=".18" />
+        <circle cx="50" cy="50" r="26" fill="none" stroke="var(--sun)" strokeOpacity=".18" />
+        <line x1="50" y1="4" x2="50" y2="96" stroke="var(--sun)" strokeOpacity=".12" />
+        <line x1="4" y1="50" x2="96" y2="50" stroke="var(--sun)" strokeOpacity=".12" />
+        {DOTS.map((d, i) => (
+          <circle
+            key={i}
+            cx={d.x}
+            cy={d.y}
+            r={d.hot && active ? 2.6 : 1.4}
+            fill={d.hot && active ? "var(--coral)" : "var(--sun)"}
+            opacity={active ? (d.hot ? 1 : 0.5) : 0.22}
+          />
+        ))}
+      </svg>
+      {active && (
+        <div
+          className="radar-sweep pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "conic-gradient(from 0deg, color-mix(in oklab, var(--sun) 28%, transparent), transparent 32%)",
+          }}
+        />
+      )}
+    </div>
+  );
+}
 
 function Waveform({ active }: { active: boolean }) {
   const [seed, setSeed] = useState(0);
