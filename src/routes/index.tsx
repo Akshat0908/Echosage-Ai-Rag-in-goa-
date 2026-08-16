@@ -118,10 +118,23 @@ function Hero() {
   }, []);
 
   return (
-    <section id="top" className="scene relative">
-      <div className="relative grid min-h-[92vh] items-center lg:grid-cols-[46%_54%]">
+    <section id="top" className="scene relative overflow-hidden border-b-2 border-ink">
+      <img
+        src={heroBeach}
+        alt="Giant mossy stone letters spelling VOICE RAG on a Goa beach with palms and surfboards"
+        width={1920}
+        height={1088}
+        className="pointer-events-none absolute inset-0 h-[112%] w-[112%] max-w-none object-cover"
+        style={{
+          transform: `translate3d(${p.x * 22 - 24}px, ${p.y * 16 - 22}px, 0) scale(1.03)`,
+          transition: "transform 400ms cubic-bezier(.2,.8,.2,1)",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent lg:via-background/60" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+      <div className="relative grid min-h-[88vh] items-center lg:grid-cols-[52%_48%]">
         <div
-          className="relative z-10 px-6 pt-32 pb-14 lg:pl-16"
+          className="relative z-10 px-6 pt-20 pb-14 lg:pl-16"
           style={{
             transform: `translate3d(${p.x * -18}px, ${p.y * -12}px, 0)`,
             transition: "transform 300ms cubic-bezier(.2,.8,.2,1)",
@@ -166,19 +179,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[52vh] overflow-hidden lg:h-[92vh]">
-          <img
-            src={heroBeach}
-            alt="Giant stone RAG letters on a Goa beach with palms and surfboards"
-            width={1600}
-            height={1104}
-            className="h-[112%] w-[112%] max-w-none object-cover"
-            style={{
-              transform: `translate3d(${p.x * 26 - 40}px, ${p.y * 18 - 30}px, 0) scale(1.04)`,
-              transition: "transform 400ms cubic-bezier(.2,.8,.2,1)",
-            }}
-          />
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background to-transparent" />
+        <div className="relative h-[38vh] lg:h-[88vh]">
           <div
             className="pointer-events-none absolute inset-0 hidden lg:block"
             style={{
