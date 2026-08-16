@@ -10,7 +10,7 @@ export type Member = {
 export function Carousel3D({ members }: { members: Member[] }) {
   const n = members.length;
   const step = 360 / n;
-  const radius = 460;
+  const radius = 380;
   const [angle, setAngle] = useState(0);
   const [auto, setAuto] = useState(true);
   const drag = useRef<{ x: number; a: number } | null>(null);
@@ -63,13 +63,18 @@ export function Carousel3D({ members }: { members: Member[] }) {
             transform: `translateZ(-${radius}px) rotateY(${angle}deg)`,
           }}
         >
-          {members.map((m, i) => (
+          {members.map((m, i) => {
+            const rot = (((angle + i * step) % 360) + 360) % 360;
+            const c = Math.cos((rot * Math.PI) / 180);
+            return (
             <div
               key={m.name}
               className="absolute top-1/2 left-1/2 w-[240px] sm:w-[280px]"
               style={{
                 transformStyle: "preserve-3d",
                 transform: `translate(-50%,-50%) rotateY(${i * step}deg) translateZ(${radius}px)`,
+                opacity: c < -0.15 ? 0 : 0.45 + 0.55 * Math.max(0, c),
+                pointerEvents: c < 0.4 ? "none" : "auto",
               }}
             >
               <div
@@ -98,7 +103,8 @@ export function Carousel3D({ members }: { members: Member[] }) {
                 </p>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 
