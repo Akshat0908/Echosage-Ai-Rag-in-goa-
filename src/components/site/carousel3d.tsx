@@ -73,7 +73,7 @@ export function Carousel3D({ members }: { members: Member[] }) {
               style={{
                 transformStyle: "preserve-3d",
                 transform: `translate(-50%,-50%) rotateY(${i * step}deg) translateZ(${radius}px)`,
-                opacity: c < -0.15 ? 0 : 0.45 + 0.55 * Math.max(0, c),
+                opacity: c < 0.15 ? 0 : 0.45 + 0.55 * Math.max(0, c),
                 pointerEvents: c < 0.4 ? "none" : "auto",
               }}
             >
