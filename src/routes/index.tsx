@@ -1,7 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Mic, ArrowUpRight, Play, Github, Quote } from "lucide-react";
 import heroBeach from "@/assets/hero-3d.jpg";
+import chunk3d from "@/assets/chunk-3d.png";
+import speed3d from "@/assets/speed-3d.png";
 import { Tilt } from "@/components/site/tilt";
 import {
   pipeline,
@@ -92,6 +94,12 @@ function Nav() {
               {n.label}
             </a>
           ))}
+          <Link
+            to="/team"
+            className="font-mono text-[11px] tracking-[0.2em] text-primary uppercase transition-colors hover:opacity-70"
+          >
+            Team
+          </Link>
         </nav>
         <a
           href="#demo"
