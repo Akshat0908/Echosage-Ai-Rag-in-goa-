@@ -65,6 +65,8 @@
   --color-sand: var(--sand);
   --color-coral: var(--coral);
   --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-sun-deep: var(--sun-deep);
   --font-display: "Imbue", Georgia, serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --font-sans: "Space Grotesk", system-ui, sans-serif;
