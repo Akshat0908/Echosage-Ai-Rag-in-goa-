@@ -472,13 +472,16 @@ function Deliverables() {
         <SectionHead kicker="submission" title="Everything the form asks for." />
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {deliverables.map((d) => (
-            <div
-              key={d.label}
-              className="rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_6px_0_0_var(--ink)]"
-            >
-              <h3 className="font-display text-2xl leading-none font-black">{d.label}</h3>
-              <p className="mt-2 font-mono text-[11px] text-muted-foreground">{d.note}</p>
-            </div>
+            <Tilt key={d.label} max={8}>
+              <div className="gloss h-full rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_24px_34px_-24px_rgba(0,0,0,.5)]">
+                <h3 className="font-display text-2xl leading-none font-black">
+                  {d.label}
+                </h3>
+                <p className="mt-2 font-mono text-[11px] text-muted-foreground">
+                  {d.note}
+                </p>
+              </div>
+            </Tilt>
           ))}
         </div>
         <p className="mt-8 font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase">
