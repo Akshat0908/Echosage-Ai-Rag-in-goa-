@@ -112,21 +112,12 @@ export function DemoConsole() {
           confident nonsense.
         </p>
 
-        <div className="mt-10 flex items-center gap-6">
-          <button
+        <div className="mt-10 flex flex-wrap items-center gap-8">
+          <MicOrb
+            listening={listening}
+            done={done}
             onClick={done || listening ? reset : start}
-            aria-pressed={listening}
-            className="group relative grid h-32 w-32 place-items-center rounded-full border-4 border-ink bg-coral text-primary-foreground shadow-[8px_8px_0_0_var(--ink)] transition-transform active:translate-x-1 active:translate-y-1 active:shadow-[3px_3px_0_0_var(--ink)]"
-          >
-            {listening && (
-              <span className="pulse-ring absolute inset-0 rounded-full border-4 border-coral" />
-            )}
-            {listening || done ? (
-              <Square className="h-10 w-10 fill-current" />
-            ) : (
-              <Mic className="h-12 w-12" strokeWidth={2.4} />
-            )}
-          </button>
+          />
 
           <div>
             <Waveform active={listening} />
@@ -136,6 +127,9 @@ export function DemoConsole() {
                 : done
                   ? "tap for the next query"
                   : "tap to simulate a query"}
+            </p>
+            <p className="mt-1 font-mono text-[9px] tracking-[0.2em] text-muted-foreground uppercase">
+              48khz · 16-bit · vad on · {listening ? "stream open" : "stream idle"}
             </p>
           </div>
         </div>
