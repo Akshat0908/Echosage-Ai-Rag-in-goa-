@@ -130,9 +130,9 @@ function Hero() {
           transition: "transform 400ms cubic-bezier(.2,.8,.2,1)",
         }}
       />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-background via-background/85 to-transparent lg:via-background/60" />
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
-      <div className="relative grid min-h-[88vh] items-center lg:grid-cols-[52%_48%]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,var(--background)_0%,color-mix(in_oklab,var(--background)_88%,transparent)_34%,transparent_62%)]" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      <div className="relative grid min-h-[620px] items-center lg:min-h-[740px] lg:grid-cols-[52%_48%]">
         <div
           className="relative z-10 px-6 pt-20 pb-14 lg:pl-16"
           style={{
@@ -179,7 +179,7 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[38vh] lg:h-[88vh]">
+        <div className="relative h-[34vh] lg:h-full">
           <div
             className="pointer-events-none absolute inset-0 hidden lg:block"
             style={{
