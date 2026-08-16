@@ -503,7 +503,7 @@ function Footer() {
     <footer className="mx-auto max-w-7xl px-6 py-16">
       <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
         <div>
-          <p className="font-display text-[clamp(2.6rem,7vw,5rem)] leading-[0.85] font-black">
+          <p className="text-3d font-display text-[clamp(2.6rem,7vw,5rem)] leading-[0.85] font-black">
             SEE YOU
             <br />
             <span className="text-primary italic">in goa.</span>
