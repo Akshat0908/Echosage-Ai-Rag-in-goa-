@@ -105,14 +105,32 @@ function Nav() {
 }
 
 function Hero() {
+  const [p, setP] = useState({ x: 0, y: 0 });
+  useEffect(() => {
+    const onMove = (e: MouseEvent) => {
+      setP({
+        x: e.clientX / window.innerWidth - 0.5,
+        y: e.clientY / window.innerHeight - 0.5,
+      });
+    };
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
   return (
-    <section id="top" className="relative">
+    <section id="top" className="scene relative">
       <div className="relative grid min-h-[92vh] items-center lg:grid-cols-[46%_54%]">
-        <div className="relative z-10 px-6 pt-32 pb-14 lg:pl-16">
+        <div
+          className="relative z-10 px-6 pt-32 pb-14 lg:pl-16"
+          style={{
+            transform: `translate3d(${p.x * -18}px, ${p.y * -12}px, 0)`,
+            transition: "transform 300ms cubic-bezier(.2,.8,.2,1)",
+          }}
+        >
           <p className="font-mono text-[11px] tracking-[0.28em] text-primary uppercase">
             HH Goa 2026 · Shortlisting Task 2
           </p>
-          <h1 className="mt-5 font-display text-[clamp(3.2rem,8vw,6.2rem)] leading-[0.82] font-black tracking-tight">
+          <h1 className="text-3d mt-5 font-display text-[clamp(3.2rem,8vw,6.2rem)] leading-[0.82] font-black tracking-tight">
             SPEAK.
             <br />
             RETRIEVE.
@@ -148,25 +166,53 @@ function Hero() {
           </div>
         </div>
 
-        <div className="relative h-[52vh] lg:h-[92vh]">
+        <div className="relative h-[52vh] overflow-hidden lg:h-[92vh]">
           <img
             src={heroBeach}
             alt="Giant stone RAG letters on a Goa beach with palms and surfboards"
             width={1600}
             height={1104}
-            className="h-full w-full object-cover"
+            className="h-[112%] w-[112%] max-w-none object-cover"
+            style={{
+              transform: `translate3d(${p.x * 26 - 40}px, ${p.y * 18 - 30}px, 0) scale(1.04)`,
+              transition: "transform 400ms cubic-bezier(.2,.8,.2,1)",
+            }}
           />
           <div className="pointer-events-none absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-background to-transparent" />
-          <div className="floaty absolute bottom-10 left-6 hidden rounded-2xl border-2 border-ink bg-card/95 px-5 py-4 shadow-[0_8px_0_0_var(--ink)] backdrop-blur lg:block">
-            <p className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
-              live trace
-            </p>
-            <p className="mt-1 font-display text-4xl leading-none font-black">
-              118<span className="text-lg">ms</span>
-            </p>
-            <p className="font-mono text-[10px] tracking-[0.16em] text-primary uppercase">
-              voice → cited answer
-            </p>
+          <div
+            className="pointer-events-none absolute inset-0 hidden lg:block"
+            style={{
+              transform: `translate3d(${p.x * -46}px, ${p.y * -32}px, 0)`,
+              transition: "transform 300ms cubic-bezier(.2,.8,.2,1)",
+            }}
+          >
+            <div className="bob absolute bottom-16 left-6 rounded-2xl border-2 border-ink bg-card/95 px-5 py-4 shadow-[0_14px_0_0_var(--ink),0_30px_40px_-18px_rgba(0,0,0,.5)] backdrop-blur">
+              <p className="font-mono text-[10px] tracking-[0.2em] text-muted-foreground uppercase">
+                live trace
+              </p>
+              <p className="mt-1 font-display text-4xl leading-none font-black">
+                118<span className="text-lg">ms</span>
+              </p>
+              <p className="font-mono text-[10px] tracking-[0.16em] text-primary uppercase">
+                voice → cited answer
+              </p>
+            </div>
+            <div
+              className="bob absolute top-28 right-10 rounded-2xl border-2 border-ink bg-sun px-5 py-3 shadow-[0_12px_0_0_var(--sun-deep),0_26px_36px_-18px_rgba(0,0,0,.5)]"
+              style={{ ["--tilt" as string]: "-6deg", animationDelay: "1.2s" }}
+            >
+              <p className="font-mono text-[10px] tracking-[0.22em] text-sun-foreground uppercase">
+                grounded · cited
+              </p>
+            </div>
+            <div
+              className="bob absolute top-1/2 right-1/3 rounded-full border-2 border-ink bg-coral px-4 py-2 shadow-[0_10px_0_0_var(--ink)]"
+              style={{ ["--tilt" as string]: "8deg", animationDelay: "0.6s" }}
+            >
+              <p className="font-mono text-[10px] tracking-[0.22em] text-primary-foreground uppercase">
+                abstains
+              </p>
+            </div>
           </div>
         </div>
       </div>
