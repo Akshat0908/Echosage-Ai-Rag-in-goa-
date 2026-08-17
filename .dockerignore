@@ -1,0 +1,15 @@
+node_modules
+.cache
+.git
+.output
+.wrangler
+.nitro
+.vinxi
+.tanstack
+dist
+dist-ssr
+*.log
+.env
+.env.*
+!.env.example
+docker-compose.yml
