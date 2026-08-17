@@ -29,12 +29,7 @@ export function Tilt({
 
   return (
     <div className="scene">
-      <div
-        ref={ref}
-        onMouseMove={onMove}
-        onMouseLeave={onLeave}
-        className={`tilt-3d ${className}`}
-      >
+      <div ref={ref} onMouseMove={onMove} onMouseLeave={onLeave} className={`tilt-3d ${className}`}>
         {children}
       </div>
     </div>

@@ -1,20 +1,23 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Play, Github, Quote, MicOff, Clock, Heart, Beer, PartyPopper } from "lucide-react";
+import {
+  ArrowUpRight,
+  Play,
+  Github,
+  Quote,
+  MicOff,
+  Clock,
+  Heart,
+  Beer,
+  PartyPopper,
+} from "lucide-react";
 import { DemoConsole } from "@/components/site/demo-console";
 import heroBeach from "@/assets/hero-3d.jpg";
 import chunk3d from "@/assets/chunk-3d.png";
 import speed3d from "@/assets/speed-3d.png";
 import footerGoa from "@/assets/footer-goa.jpg";
 import { Tilt } from "@/components/site/tilt";
-import {
-  pipeline,
-  strategies,
-  latency,
-  stages,
-  harness,
-  guardrails,
-} from "@/components/site/data";
+import { pipeline, strategies, latency, harness, guardrails } from "@/components/site/data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,13 +26,13 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "A voice-in, cited-answer-out RAG pipeline on MSMARCO-XI: Sarvam STT, six chunking strategies, sub-200ms retrieval, a typed harness and real guardrails.",
+          "A voice-in, cited-answer-out RAG pipeline on MSMARCO-XI with Sarvam STT, multi-view chunking, a typed harness and guardrails.",
       },
       { property: "og:title", content: "Voice RAG on the Beach — HH Goa 2026 Task 2" },
       {
         property: "og:description",
         content:
-          "Speak a question, get a grounded, cited answer in under 200ms. Built for Hacker House Goa 2026 shortlisting.",
+          "Speak a question and get a grounded, cited answer. Built for Hacker House Goa 2026 shortlisting.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -48,10 +51,10 @@ const nav = [
 
 const marquee = [
   "#RAGInGoa",
-  "sub-200ms",
+  "measured latency",
   "Sarvam STT",
   "MSMARCO-XI",
-  "6 chunkers",
+  "4 chunk views",
   "cited or silent",
 ];
 
@@ -161,16 +164,15 @@ function Hero() {
             <span className="text-primary italic">answer.</span>
           </h1>
           <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-            A voice-in, cited-answer-out RAG pipeline over MSMARCO-XI. Six chunking
-            strategies, a typed harness, and guardrails that would rather say nothing than
-            make something up.
+            A voice-in, cited-answer-out RAG pipeline over MSMARCO-XI. Multi-view chunking, a typed
+            harness, and guardrails that would rather say nothing than make something up.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-3">
             <span className="rounded-full border-2 border-primary/40 px-4 py-2 font-mono text-[11px] tracking-[0.18em] uppercase">
-              197ms worst case
+              live metrics only
             </span>
             <span className="rounded-full border-2 border-primary/40 px-4 py-2 font-mono text-[11px] tracking-[0.18em] uppercase">
-              500 test queries
+              112,421 multilingual chunks
             </span>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -202,10 +204,10 @@ function Hero() {
                 live trace
               </p>
               <p className="mt-1 font-display text-4xl leading-none font-black">
-                118<span className="text-lg">ms</span>
+                &lt;3<span className="text-lg">ms</span>
               </p>
               <p className="font-mono text-[10px] tracking-[0.16em] text-primary uppercase">
-                voice → cited answer
+                post-STT → cited answer
               </p>
             </div>
             <div
@@ -252,9 +254,7 @@ function Marquee() {
 function SectionHead({ kicker, title }: { kicker: string; title: string }) {
   return (
     <div className="mb-10">
-      <p className="font-mono text-[11px] tracking-[0.28em] text-primary uppercase">
-        {kicker}
-      </p>
+      <p className="font-mono text-[11px] tracking-[0.28em] text-primary uppercase">{kicker}</p>
       <h2 className="text-3d mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black">
         {title}
       </h2>
@@ -276,9 +276,7 @@ function Pipeline() {
                 </span>
                 <span className="font-mono text-xs text-muted-foreground">0{i + 1}</span>
               </div>
-              <h3 className="mt-5 font-display text-2xl leading-none font-black">
-                {p.label}
-              </h3>
+              <h3 className="mt-5 font-display text-2xl leading-none font-black">{p.label}</h3>
               <p className="mt-2 font-mono text-xs text-muted-foreground">{p.note}</p>
             </div>
           </Tilt>
@@ -309,7 +307,7 @@ function Chunking() {
         loading="lazy"
         className="bob pointer-events-none absolute -top-6 right-2 hidden w-64 drop-shadow-[0_24px_18px_rgba(0,0,0,.28)] lg:block xl:w-80"
       />
-      <SectionHead kicker="chunking" title="Not one splitter. Six, fused." />
+      <SectionHead kicker="chunking" title="Four chunk views, then a careful merge." />
       <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {strategies.map((s) => (
           <Tilt key={s.tag} max={8}>
@@ -317,19 +315,15 @@ function Chunking() {
               <span className="inline-block rounded-md border-2 border-ink bg-sun px-2 py-0.5 font-mono text-xs tracking-[0.2em] text-sun-foreground shadow-[0_4px_0_0_var(--sun-deep)]">
                 {s.tag}
               </span>
-              <h3 className="mt-4 font-display text-2xl leading-none font-black">
-                {s.name}
-              </h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {s.body}
-              </p>
+              <h3 className="mt-4 font-display text-2xl leading-none font-black">{s.name}</h3>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{s.body}</p>
             </article>
           </Tilt>
         ))}
       </div>
       <p className="mt-8 max-w-2xl font-mono text-xs leading-relaxed text-muted-foreground">
-        Candidates from all six indexes are merged with reciprocal-rank fusion, deduped on
-        span overlap, then reranked — the retriever votes, it doesn't guess.
+        Sentence, window, proposition and parent-child candidates are deduped, diversified across
+        source passages, and reranked with vector, lexical and metadata-query signals.
       </p>
     </section>
   );
@@ -343,7 +337,7 @@ function Latency() {
           measured, not vibed
         </p>
         <h2 className="text-3d-sun mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black text-sand">
-          500 queries. Everything under 200ms.
+          100 measured post-STT runs. Every one under 200ms.
         </h2>
         <div className="relative mt-12 grid gap-5 md:grid-cols-3">
           <img
@@ -357,9 +351,7 @@ function Latency() {
           {latency.map((l) => (
             <Tilt key={l.label} max={9}>
               <div className="gloss rounded-2xl border-2 border-sand/30 bg-white/5 p-7 shadow-[0_12px_0_0_rgba(0,0,0,.35)]">
-                <p className="font-mono text-xs tracking-[0.25em] text-sun uppercase">
-                  {l.label}
-                </p>
+                <p className="font-mono text-xs tracking-[0.25em] text-sun uppercase">{l.label}</p>
                 <p className="text-3d-sun layer-pop mt-3 font-display text-6xl leading-none font-black text-sand">
                   {l.value}
                   <span className="text-2xl">ms</span>
@@ -369,22 +361,12 @@ function Latency() {
             </Tilt>
           ))}
         </div>
-        <div className="mt-12 space-y-4">
-          {stages.map((s) => (
-            <div key={s.name} className="flex items-center gap-4">
-              <span className="w-40 shrink-0 font-mono text-[11px] tracking-[0.14em] uppercase">
-                {s.name}
-              </span>
-              <div className="h-3 flex-1 overflow-hidden rounded-full bg-sand/15">
-                <div
-                  className="h-full rounded-full bg-sun"
-                  style={{ width: `${s.pct * 3}%` }}
-                />
-              </div>
-              <span className="w-14 text-right font-mono text-xs text-sun">{s.ms}ms</span>
-            </div>
-          ))}
-        </div>
+        <p className="mt-12 max-w-2xl font-mono text-xs leading-relaxed text-sand/70">
+          Scope: warm in-process transcript → retrieval → grounded extractive answer. Sarvam STT is
+          a network call and is reported separately in every live demo response; it is not folded
+          into these post-STT percentiles. Warm Qdrant benchmark (50 queries): 55.10 ms P50 and
+          103.38 ms P100 for embedding plus vector search.
+        </p>
       </div>
     </section>
   );
@@ -396,34 +378,34 @@ function Guardrails() {
       <SectionHead kicker="harness + guardrails" title="Structured, or it doesn't ship." />
       <div className="grid gap-6 lg:grid-cols-2">
         <Tilt max={6} lift={8}>
-        <div className="gloss h-full rounded-3xl border-2 border-ink bg-card p-8 shadow-[0_14px_0_0_var(--ink),0_34px_44px_-28px_rgba(0,0,0,.5)]">
-          <h3 className="font-display text-3xl leading-none font-black">The harness</h3>
-          <ul className="mt-6 space-y-4">
-            {harness.map((h) => (
-              <li key={h} className="flex gap-3 text-sm leading-relaxed">
-                <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                <span className="text-muted-foreground">{h}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div className="gloss h-full rounded-3xl border-2 border-ink bg-card p-8 shadow-[0_14px_0_0_var(--ink),0_34px_44px_-28px_rgba(0,0,0,.5)]">
+            <h3 className="font-display text-3xl leading-none font-black">The harness</h3>
+            <ul className="mt-6 space-y-4">
+              {harness.map((h) => (
+                <li key={h} className="flex gap-3 text-sm leading-relaxed">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                  <span className="text-muted-foreground">{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Tilt>
         <Tilt max={6} lift={8}>
-        <div className="gloss h-full rounded-3xl border-2 border-ink bg-primary p-8 text-primary-foreground shadow-[0_14px_0_0_var(--ink),0_34px_44px_-28px_rgba(0,0,0,.5)]">
-          <h3 className="font-display text-3xl leading-none font-black">The guardrails</h3>
-          <ul className="mt-6 space-y-4">
-            {guardrails.map((g) => (
-              <li key={g} className="flex gap-3 text-sm leading-relaxed">
-                <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-sun" />
-                <span className="opacity-90">{g}</span>
-              </li>
-            ))}
-          </ul>
-          <p className="mt-8 flex gap-3 border-t border-primary-foreground/20 pt-6 font-mono text-xs">
-            <Quote className="h-4 w-4 shrink-0 text-sun" />
-            Knowing when not to answer is the feature.
-          </p>
-        </div>
+          <div className="gloss h-full rounded-3xl border-2 border-ink bg-primary p-8 text-primary-foreground shadow-[0_14px_0_0_var(--ink),0_34px_44px_-28px_rgba(0,0,0,.5)]">
+            <h3 className="font-display text-3xl leading-none font-black">The guardrails</h3>
+            <ul className="mt-6 space-y-4">
+              {guardrails.map((g) => (
+                <li key={g} className="flex gap-3 text-sm leading-relaxed">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-sun" />
+                  <span className="opacity-90">{g}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-8 flex gap-3 border-t border-primary-foreground/20 pt-6 font-mono text-xs">
+              <Quote className="h-4 w-4 shrink-0 text-sun" />
+              Knowing when not to answer is the feature.
+            </p>
+          </div>
         </Tilt>
       </div>
     </section>
@@ -446,12 +428,8 @@ function Deliverables() {
           {deliverables.map((d) => (
             <Tilt key={d.label} max={8}>
               <div className="gloss h-full rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_24px_34px_-24px_rgba(0,0,0,.5)]">
-                <h3 className="font-display text-2xl leading-none font-black">
-                  {d.label}
-                </h3>
-                <p className="mt-2 font-mono text-[11px] text-muted-foreground">
-                  {d.note}
-                </p>
+                <h3 className="font-display text-2xl leading-none font-black">{d.label}</h3>
+                <p className="mt-2 font-mono text-[11px] text-muted-foreground">{d.note}</p>
               </div>
             </Tilt>
           ))}
@@ -512,7 +490,7 @@ function Footer() {
                 <MicOff className="h-3 w-3" /> off-topic queries
               </span>
               <span className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] uppercase shadow-[0_3px_0_0_var(--ink)]">
-                <Clock className="h-3 w-3" /> 200ms budget
+                <Clock className="h-3 w-3" /> post-STT 200ms budget
               </span>
               <span className="flex items-center gap-1.5 rounded-full border-2 border-ink bg-card px-3 py-1.5 font-mono text-[10px] tracking-[0.16em] uppercase shadow-[0_3px_0_0_var(--ink)]">
                 <Heart className="h-3 w-3 text-coral" /> built with panic

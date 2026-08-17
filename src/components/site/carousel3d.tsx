@@ -67,42 +67,38 @@ export function Carousel3D({ members }: { members: Member[] }) {
             const rot = (((angle + i * step) % 360) + 360) % 360;
             const c = Math.cos((rot * Math.PI) / 180);
             return (
-            <div
-              key={m.name}
-              className="absolute top-1/2 left-1/2 w-[240px] sm:w-[280px]"
-              style={{
-                transformStyle: "preserve-3d",
-                transform: `translate(-50%,-50%) rotateY(${i * step}deg) translateZ(${radius}px)`,
-                opacity: c < 0.15 ? 0 : 0.45 + 0.55 * Math.max(0, c),
-                pointerEvents: c < 0.4 ? "none" : "auto",
-              }}
-            >
               <div
-                className={`gloss rounded-3xl border-2 border-ink bg-card p-5 text-center shadow-[0_14px_0_0_var(--ink),0_34px_44px_-26px_rgba(0,0,0,.55)] transition-colors ${
-                  i === active ? "bg-sun" : ""
-                }`}
+                key={m.name}
+                className="absolute top-1/2 left-1/2 w-[240px] sm:w-[280px]"
+                style={{
+                  transformStyle: "preserve-3d",
+                  transform: `translate(-50%,-50%) rotateY(${i * step}deg) translateZ(${radius}px)`,
+                  opacity: c < 0.15 ? 0 : 0.45 + 0.55 * Math.max(0, c),
+                  pointerEvents: c < 0.4 ? "none" : "auto",
+                }}
               >
-                <div className="mx-auto grid h-40 w-40 place-items-center rounded-2xl border-2 border-ink bg-sand shadow-[inset_0_-8px_0_0_rgba(0,0,0,.08)] sm:h-48 sm:w-48">
-                  <img
-                    src={m.img}
-                    alt={`${m.name}, ${m.role}`}
-                    width={768}
-                    height={768}
-                    loading="lazy"
-                    className="h-full w-full object-contain drop-shadow-[0_14px_10px_rgba(0,0,0,.35)]"
-                  />
+                <div
+                  className={`gloss rounded-3xl border-2 border-ink bg-card p-5 text-center shadow-[0_14px_0_0_var(--ink),0_34px_44px_-26px_rgba(0,0,0,.55)] transition-colors ${
+                    i === active ? "bg-sun" : ""
+                  }`}
+                >
+                  <div className="mx-auto grid h-40 w-40 place-items-center rounded-2xl border-2 border-ink bg-sand shadow-[inset_0_-8px_0_0_rgba(0,0,0,.08)] sm:h-48 sm:w-48">
+                    <img
+                      src={m.img}
+                      alt={`${m.name}, ${m.role}`}
+                      width={768}
+                      height={768}
+                      loading="lazy"
+                      className="h-full w-full object-contain drop-shadow-[0_14px_10px_rgba(0,0,0,.35)]"
+                    />
+                  </div>
+                  <h3 className="mt-4 font-display text-2xl leading-none font-black">{m.name}</h3>
+                  <p className="mt-1 font-mono text-[10px] tracking-[0.22em] text-primary uppercase">
+                    {m.role}
+                  </p>
+                  <p className="mt-3 text-xs leading-relaxed text-muted-foreground">{m.line}</p>
                 </div>
-                <h3 className="mt-4 font-display text-2xl leading-none font-black">
-                  {m.name}
-                </h3>
-                <p className="mt-1 font-mono text-[10px] tracking-[0.22em] text-primary uppercase">
-                  {m.role}
-                </p>
-                <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
-                  {m.line}
-                </p>
               </div>
-            </div>
             );
           })}
         </div>

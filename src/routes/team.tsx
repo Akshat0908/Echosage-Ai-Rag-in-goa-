@@ -101,12 +101,8 @@ function TeamPage() {
                   className="h-full w-full object-contain drop-shadow-[0_14px_10px_rgba(0,0,0,.35)]"
                 />
               </div>
-              <h2 className="mt-5 font-display text-2xl leading-none font-black">
-                {c.name}
-              </h2>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {c.role}
-              </p>
+              <h2 className="mt-5 font-display text-2xl leading-none font-black">{c.name}</h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{c.role}</p>
             </article>
           ))}
         </div>

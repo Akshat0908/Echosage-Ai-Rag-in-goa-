@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as ApiRagRouteImport } from './routes/api/rag'
+import { Route as ApiRagBenchmarkRouteImport } from './routes/api/rag-benchmark'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +24,49 @@ const TeamRoute = TeamRouteImport.update({
   path: '/team',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiRagRoute = ApiRagRouteImport.update({
+  id: '/api/rag',
+  path: '/api/rag',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiRagBenchmarkRoute = ApiRagBenchmarkRouteImport.update({
+  id: '/api/rag-benchmark',
+  path: '/api/rag-benchmark',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/team': typeof TeamRoute
+  '/api/rag': typeof ApiRagRoute
+  '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/team': typeof TeamRoute
+  '/api/rag': typeof ApiRagRoute
+  '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/team': typeof TeamRoute
+  '/api/rag': typeof ApiRagRoute
+  '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/team'
+  fullPaths: '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/team'
-  id: '__root__' | '/' | '/team'
+  to: '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
+  id: '__root__' | '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   TeamRoute: typeof TeamRoute
+  ApiRagRoute: typeof ApiRagRoute
+  ApiRagBenchmarkRoute: typeof ApiRagBenchmarkRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +85,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeamRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/rag': {
+      id: '/api/rag'
+      path: '/api/rag'
+      fullPath: '/api/rag'
+      preLoaderRoute: typeof ApiRagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/rag-benchmark': {
+      id: '/api/rag-benchmark'
+      path: '/api/rag-benchmark'
+      fullPath: '/api/rag-benchmark'
+      preLoaderRoute: typeof ApiRagBenchmarkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   TeamRoute: TeamRoute,
+  ApiRagRoute: ApiRagRoute,
+  ApiRagBenchmarkRoute: ApiRagBenchmarkRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
