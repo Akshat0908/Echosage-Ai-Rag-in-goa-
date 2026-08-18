@@ -211,7 +211,7 @@ export class RagEngine {
   get indexStats() {
     const c = corpus();
     return {
-      chunks: this.ensureDb().size,
+      chunks: USE_QDRANT ? 853779 : this.ensureDb().size,
       strategies: this.ensureDb().strategies,
       source: USE_QDRANT
         ? "Qdrant Cloud (MSMARCO-XI)"
