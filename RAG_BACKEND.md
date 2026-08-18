@@ -6,6 +6,10 @@ The online index is deliberately bounded. The provided MSMARCO-XI repository is 
 
 Retrieval is a hybrid local vector/lexical index. It uses hashed n-gram vectors for cosine similarity, an inverted term map for candidate narrowing, lexical overlap, strategy diversity, and a fused score. This keeps the request path dependency-light and fast enough to benchmark in-process while retaining multiple retrieval strategies. The answer stage is intentionally extractive and citation-first: it selects only from a retrieved selected passage, never from a hidden dataset answer label. This is safer and much faster than adding a remote generative model inside a 200 ms post-STT budget.
 
+## Optional Hugging Face query embeddings
+
+Set `RAG_EMBEDDING_BACKEND=huggingface` and add `HF_TOKEN` to the deployment secret store to move query embedding inference to Hugging Face Inference Providers. The deployed Qdrant collection must remain 384-dimensional and was built from the corresponding multilingual MiniLM model. If Hugging Face is rate-limited or unavailable, the server automatically falls back to the local ONNX model so requests still complete. This is a latency optimisation for a low-CPU host, not a guaranteed latency claim; measure the deployed path again after enabling it.
+
 The harness records structured stages and a trace such as `validate.input`, `tool.retrieve`, `tool.rerank.rrf`, `guardrail.pass`, `tool.cite`, and `output.schema.valid`. It returns a grounded answer only when support is sufficient. Unsafe requests are blocked; off-topic, invalid, and low-support requests abstain with an honest explanation. Errors return a recoverable JSON response rather than a silent failure.
 
 ## Local setup

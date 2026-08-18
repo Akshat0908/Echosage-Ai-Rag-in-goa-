@@ -445,6 +445,7 @@ function Deliverables() {
 const roasts = [
   "Built in 9 days. Judged in 9 seconds. No pressure.",
   "If we don't get shortlisted, at least the website slaps.",
+  "Shortlist us, please. Mujhe Goa aana hai.",
   "Latency under 200ms. Our sleep schedule? Not so much.",
   "Powered by caffeine, deadlines, and the fear of rejection.",
   "Ask badly. We dare you.",

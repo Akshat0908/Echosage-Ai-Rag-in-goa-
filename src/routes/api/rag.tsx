@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { ragEngine } from "@/server/rag/engine";
+import { EMBEDDING_BACKEND, EMBEDDING_MODEL } from "@/server/rag/embeddings";
 import { transcribeWithSarvam } from "@/server/rag/stt";
 
 function json(body: unknown, status = 200): Response {
@@ -25,6 +26,7 @@ export const Route = createFileRoute("/api/rag")({
           ok: true,
           service: "hhg-voice-rag",
           index: ragEngine.indexStats,
+          embeddings: { backend: EMBEDDING_BACKEND, model: EMBEDDING_MODEL },
           stt: "Sarvam (optional key)",
         }),
       POST: async ({ request }) => {

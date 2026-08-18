@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@huggingface/inference": "^4.13.27",
     "@huggingface/transformers": "^4.2.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",
