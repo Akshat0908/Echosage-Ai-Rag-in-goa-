@@ -1,4 +1,4 @@
-# 🏖️ EchoSage AI — Voice RAG on the Beach
+# 🏖️SandQuery — Voice RAG on the Beach
 
 > **HH Goa 2026 · Shortlisting Task 2**
 > Speak a question → get a grounded, cited answer. No hallucinations. No vibes. Just evidence.
