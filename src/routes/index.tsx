@@ -22,13 +22,13 @@ import { pipeline, strategies, latency, cloudLatency, harness, guardrails } from
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Voice RAG on the Beach — HH Goa 2026 Task 2" },
+      { title: "SandQuery — Voice RAG for HH Goa 2026" },
       {
         name: "description",
         content:
-          "A voice-in, cited-answer-out RAG pipeline on MSMARCO-XI with Sarvam STT, multi-view chunking, a typed harness and guardrails.",
+          "Searching through 853K grains of knowledge on the beach. A voice-in, cited-answer-out RAG pipeline on MSMARCO-XI.",
       },
-      { property: "og:title", content: "Voice RAG on the Beach — HH Goa 2026 Task 2" },
+      { property: "og:title", content: "SandQuery — Voice RAG on the Beach" },
       {
         property: "og:description",
         content:
@@ -86,7 +86,7 @@ function Nav() {
             R
           </span>
           <span className="font-mono text-[11px] leading-tight tracking-[0.18em] uppercase">
-            Voice RAG
+            SandQuery
             <br />
             <span className="text-primary">Goa 2026</span>
           </span>
@@ -538,15 +538,6 @@ function Footer() {
           </div>
 
           <div className="flex flex-col items-start gap-5 lg:items-end">
-            <div className="rounded-2xl border-2 border-ink bg-primary p-5 text-primary-foreground shadow-[0_8px_0_0_var(--ink)]">
-              <p className="font-mono text-[10px] tracking-[0.2em] uppercase opacity-80">
-                submission drops
-              </p>
-              <p className="font-display text-3xl font-black">22 Aug · 11:59 PM</p>
-              <p className="mt-1 font-mono text-[10px] tracking-[0.14em] uppercase opacity-70">
-                #RAGInGoa · every platform · every member
-              </p>
-            </div>
             <a
               href="#top"
               className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-6 py-3 font-mono text-xs tracking-[0.2em] text-sun-foreground uppercase shadow-[0_5px_0_0_var(--ink)] transition-transform hover:-translate-y-0.5"

@@ -8,13 +8,13 @@ import figSiddharth from "@/assets/fig-siddharth.png";
 export const Route = createFileRoute("/team")({
   head: () => ({
     meta: [
-      { title: "The Crew — Akshat, Suman & Siddharth · Voice RAG Goa 2026" },
+      { title: "The Crew — Akshat, Suman & Siddharth · SandQuery Goa 2026" },
       {
         name: "description",
         content:
           "Meet the three builders behind our sub-200ms voice RAG pipeline: retrieval, harness, guardrails, STT and latency.",
       },
-      { property: "og:title", content: "The Crew — Voice RAG for HH Goa 2026" },
+      { property: "og:title", content: "The Crew — SandQuery for HH Goa 2026" },
       {
         property: "og:description",
         content:
@@ -30,19 +30,19 @@ export const Route = createFileRoute("/team")({
 const crew: Crew[] = [
   {
     name: "Akshat Agrawal",
-    role: "Retrieval and chunking — six indexes, rank fusion, and every rebuild that keeps recall honest.",
+    role: "Retrieval and chunking — six indexes, rank fusion, and every rebuild that keeps recall honest. Currently searching for a chunking strategy for his sleep schedule.",
     src: figAkshat,
     bg: "#F4845F",
   },
   {
     name: "Suman Bhandari",
-    role: "Harness and guardrails — typed tool calls, retries, grounding checks. Cited or silent, no third option.",
+    role: "Harness and guardrails — typed tool calls, retries, grounding checks. Enforces safety filters stricter than an Indian parent.",
     src: figSuman,
     bg: "#6BBF7A",
   },
   {
     name: "Siddharth Jaiswal",
-    role: "Speech and latency — Sarvam STT streaming, code-switched transcripts, the sub-200ms budget.",
+    role: "Speech and latency — Sarvam STT streaming, code-switched transcripts, the sub-200ms budget. Optimization obsessed. Dreams in milliseconds.",
     src: figSiddharth,
     bg: "#6EB5FF",
   },
@@ -58,7 +58,7 @@ function TeamPage() {
               R
             </span>
             <span className="font-mono text-[11px] leading-tight tracking-[0.18em] uppercase">
-              Voice RAG
+              SandQuery
               <br />
               <span className="text-primary">Goa 2026</span>
             </span>
