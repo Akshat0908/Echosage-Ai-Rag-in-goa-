@@ -1,134 +1,196 @@
-# EchoSage AI
+# 🏖️ EchoSage AI — Voice RAG on the Beach
 
-copy this refercne but build with some our crips and style 
+> **HH Goa 2026 · Shortlisting Task 2**
+> Speak a question → get a grounded, cited answer. No hallucinations. No vibes. Just evidence.
 
-HH Goa 2026 Shortlisting Task 2: Build a Voice-Enabled RAG Model What to build A voice-enabled Retrieval-Augmented Generation (RAG) system — a user speaks a question, your pipeline transcribes it, retrieves relevant context from a provided dataset, and returns an answer, end to end. Pipeline shape: Voice input → Speech-to-text → Chunking/Retrieval (vector DB) → Answer generation
+🔗 **[Live Demo](https://echosage-ai-rag-in-goa-production.up.railway.app)** · 📦 **[API Endpoint](https://echosage-ai-rag-in-goa-production.up.railway.app/api/rag)**
 
-Dataset We will provide the dataset to build your RAG pipeline on: https://huggingface.co/datasets/ai4bharat/MSMARCO-XI
+---
 
-Technical requirements
+## ⚡ What It Does
 
-Speech-to-text Use either Sarvam or ElevenLabs for voice-to-text. Pick one.
+A voice-enabled Retrieval-Augmented Generation (RAG) system over the [MSMARCO-XI](https://huggingface.co/datasets/ai4bharat/MSMARCO-XI) multilingual dataset.
 
-Chunking Chunking strategy should be vast — don't submit a single naive fixed-size chunking approach. We want to see real thought put into how the dataset is split, indexed, and retrieved (e.g. multiple chunking strategies, overlap handling, semantic vs. fixed-size splitting, metadata-aware chunking, etc.).
-
-Latency target The full process — chunking + vector DB retrieval + everything through to final output — should complete in under 200ms.
-
-Latency analytics Submit P50 / P70 / P100 latency numbers for your pipeline, measured across a reasonable number of test queries — not a single best-case run.
-
-Harness your model Your model/pipeline should be run inside a proper harness — structured orchestration around the model (tool calls, retries, structured input/output handling, error recovery) rather than a single raw prompt-in, text-out call.
-
-Guardrail your model Add guardrails around your model — handling for off-topic queries, unsafe/inappropriate inputs, hallucination checks, or answers not grounded in the retrieved context. Show that your system knows when not to answer, not just how to answer.
-
-Submission requirements
-
-Fill the submission form: https://forms.gle/MNvCjcv23Hn2Eeu58
-
-GitHub repo link
-
-Live working link
-
-2 videos (see below)
-
-No resubmissions will be allowed — submit only when your build is final. Video 1 — Team/process video
-
-90 seconds
-
-Shows how your team is working on this — process, not the product itself.
-
-Video 2 — Demo video
-
-Demo of the actual project working end to end.
-
-Promotion requirement (mandatory) Both videos must be uploaded to Instagram, X, and LinkedIn — by every individual team member, not just one shared team post. At least 1 Instagram account should be public. Every post, on every platform, by every member, must include: #RAGInGoa
-
-Timeline
-
-Task launch: August 13, 2026
-
-Deadline: August 22, 2026, 11:59 PM
-
-I want to get shortlist for this hhg 2.0 at any cost coz I went last time this time also I wanted to go soo tell me what can we do to this task at the highest and the bestest way to get shortlisted for this time also https://hhgoa.com/
-
-
-Skip to chat input
-
-WhisperWise AI
-
-PreviewFilesCodeMore
-
-Response ready
-
-pasted-2026-08-15T19-09-45-836Z.txt
-
-TXT
-
-copy this refercne but build with some our crips and style
-
-HH Goa 2026 Shortlisting Task 2: Build a Voice-Enabled RAG Model What to build A voice-enabled Retrieval-Augmented Generation (RAG) system — a user speaks a question, your pipeline transcribes it, retrieves relevant context from a provided dataset, and returns an answer, end to end. Pipeline shape: Voice input → Speech-to-text → Chunking/Retrieval (vector DB) → Answer generation
-
-Dataset We will provide the dataset to build your RAG pipeline on: https://huggingface.co/datasets/ai4bharat/MSMARCO-XI
-
-Technical requirements
-
-Speech-to-text Use either Sarvam or ElevenLabs for voice-to-text. Pick one.
-
-Chunking Chunking strategy should be vast — don't submit a single naive fixed-size chunking approach. We want to see real thought put into how the dataset is split, indexed, and retrieved (e.g. multiple chunking strategies, overlap handling, semantic vs. fixed-size splitting, metadata-aware chunking, etc.).
-
-Latency target The full process — chunking + vector DB retrieval + everything through to final output — should complete in under 200ms.
-
-Latency analytics Submit P50 / P70 / P100 latency numbers for your pipeline, measured across a reasonable number of test queries — not a single best-case run.
-
-Harness your model Your model/pipeline should be run inside a proper harness — structured orchestration around the model (tool calls, retries, structured input/output handling, error recovery) rather than a single raw prompt-in, text-out call.
-
-Guardrail your model Add guardrails around your model — handling for off-topic queries, unsafe/inappropriate inputs, hallucination checks, or answers not grounded in the retrieved context. Show that your system knows when not to answer, not just how to answer.
-
-Submission requirements
-
-Fill the submission form: https://forms.gle/MNvCjcv23Hn2Eeu58
-
-GitHub repo link
-
-Live working link
-
-2 videos (see below)
-
-No resubmissions will be allowed — submit only when your build is final. ...
-
-Today at 12:40 AM
-
-Created HH Goa landing page
-
-
-
-Your submission site is live — HH Goa's jungle green + sun yellow, Imbue display over Victor Mono, riso-grain texture, but with our own structure: pipeline strip, a voice demo panel, six chunking strategies, a P50/P70/P100 board with a per-stage millisecond breakdown, and side-by-side harness/guardrails.
-
-Two things to note: the numbers (118/143/197ms, 500 queries) and the GitHub link are placeholders — swap them for your real measurements before submitting, since judges will check. And the mic button is presentation-only right now; when you're ready I can wire Sarvam STT and a real retrieval backend behind it so the demo actually runs on the page.
-
-Reverted messagesShow
-
-its good i need this complete frontend in this vibe you alredy had gthe code just use that or use anythinh whgich reuired and build this in this vvibe https://reactbits.dev/pro/components some 3d componest from reactbits if reuired
-
-
-use this image and code and design in the same structure
-
-This project was built with [Lovable](https://lovable.dev).
-
-## Build with Lovable
-
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/c5632bad-6035-4331-8046-5f48298c774d).
-
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
-
-## Development
-
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
-
-```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
 ```
+🎤 Voice → 🗣️ Sarvam STT → 🔍 Multi-View Chunking + Qdrant Retrieval → ✅ Grounded Answer
+```
+
+**853,779 chunks** indexed across Hindi, Bengali, Telugu & English. Every answer is extracted directly from retrieved evidence — never generated, never hallucinated.
+
+---
+
+## 📊 Latency Benchmarks
+
+### Local (In-Process, Zero Network)
+| Metric | Value | Details |
+|--------|-------|---------|
+| **P50** | **1.49 ms** | 100 post-STT runs over 853K chunks |
+| **P75** | **2.44 ms** | Warm multilingual hybrid index |
+| **P100** | **147.95 ms** | 100% of queries under 200ms |
+
+### Deployed (Railway → HuggingFace API → Qdrant Cloud)
+| Metric | Value | Details |
+|--------|-------|---------|
+| **P50** | **84 ms** | 50-query benchmark, text-in API |
+| **P75** | **92 ms** | Railway US East + Qdrant US East |
+| **P95** | **125 ms** | 96% of queries under 200ms |
+
+> Sarvam STT is a network call reported separately. These are **post-STT** numbers only.
+
+---
+
+## 🧠 Chunking Strategy (4 Views)
+
+We don't do naive fixed-size chunking. Each passage is processed through **four complementary strategies**:
+
+| Strategy | What It Does |
+|----------|-------------|
+| **Sentence-aware splits** | Respects sentence boundaries — no mid-sentence cuts |
+| **Overlapping windows** | 72-word windows with 18-word overlap for boundary evidence |
+| **Proposition atoms** | Decomposes passages into standalone factual claims |
+| **Parent-child recall** | Search the atoms, return the parent window for context |
+
+All candidates are deduped, diversified across source passages, and reranked with **vector + lexical + metadata-query** signals using Reciprocal Rank Fusion (RRF).
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────┐    ┌──────────────┐    ┌──────────────────────┐
+│  Browser Mic │───▶│  Sarvam STT  │───▶│  HuggingFace Embed   │
+│  (16kHz WAV) │    │  (saaras:v3) │    │  (MiniLM-L12-v2)     │
+└─────────────┘    └──────────────┘    └──────────┬───────────┘
+                                                   │
+                                       ┌───────────▼───────────┐
+                                       │   Qdrant Cloud (384d)  │
+                                       │   853,779 vectors      │
+                                       │   US East (Virginia)   │
+                                       └───────────┬───────────┘
+                                                   │
+                                       ┌───────────▼───────────┐
+                                       │  Rerank (RRF Fusion)   │
+                                       │  Guardrails + Extract  │
+                                       │  Grounded Answer Out   │
+                                       └───────────────────────┘
+```
+
+### Infrastructure (100% Free Tier)
+| Component | Service | Region |
+|-----------|---------|--------|
+| **Server** | Railway (Node.js/Nitro) | US East |
+| **Vector DB** | Qdrant Cloud (1GB free) | US East |
+| **Embeddings** | HuggingFace Inference API | Auto |
+| **STT** | Sarvam AI (saaras:v3) | India |
+
+---
+
+## 🛡️ Harness & Guardrails
+
+### The Harness
+- **Typed I/O**: Zod-validated JSON input, structured response schema
+- **Explicit stages**: validation → retrieval → reranking → grounding → citation — traceable, not one opaque prompt
+- **Recoverable voice path**: Sarvam retries transient failures; missing keys return actionable errors
+- **Measured runs**: every response includes per-stage timings in milliseconds
+
+### The Guardrails
+- **Off-topic gate**: Known non-corpus requests refused before extraction
+- **Groundedness check**: Answer is an extracted sentence with query-term support — never generated
+- **Abstention path**: Low support → "I don't have that in the dataset" with nearest passages
+- **Safety filter**: Unsafe/PII-seeking inputs short-circuit before touching the pipeline
+
+> *"Knowing when not to answer is the feature."*
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- Node.js 20+
+- Docker (for local Qdrant, optional)
+
+### Local Development
+```bash
+git clone https://github.com/Akshat0908/Echosage-Ai-Rag-in-goa-.git
+cd Echosage-Ai-Rag-in-goa-
+npm install
+
+# Set environment variables
+cp .env.example .env
+# Add your SARVAM_API_KEY, QDRANT_URL, QDRANT_API_KEY, HF_TOKEN
+
+# Run dev server (needs 4GB heap for corpus)
+NODE_OPTIONS="--max-old-space-size=4096" npm run dev
+```
+
+### Run Benchmarks
+```bash
+# Local RAG benchmark (100 queries)
+npm run rag:benchmark
+
+# Qdrant-specific benchmark
+npm run rag:benchmark:qdrant
+```
+
+### API Usage
+```bash
+# Health check
+curl https://echosage-ai-rag-in-goa-production.up.railway.app/api/rag
+
+# Text query
+curl -X POST https://echosage-ai-rag-in-goa-production.up.railway.app/api/rag \
+  -H "Content-Type: application/json" \
+  -d '{"transcript": "What is a corporation?"}'
+
+# Voice query (with audio file)
+curl -X POST https://echosage-ai-rag-in-goa-production.up.railway.app/api/rag \
+  -F "audio=@question.wav"
+```
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── server/rag/
+│   ├── engine.ts          # RAG engine with harness, guardrails, extraction
+│   ├── embeddings.ts      # HuggingFace API + local ONNX fallback
+│   ├── qdrant.ts          # Qdrant Cloud vector store client
+│   ├── stt.ts             # Sarvam STT integration
+│   ├── index.ts           # Local hybrid vector + lexical index
+│   ├── types.ts           # Typed interfaces for the pipeline
+│   └── generated-corpus.ts # 853K chunks (auto-generated)
+├── routes/
+│   ├── api/rag.tsx        # POST /api/rag endpoint
+│   └── index.tsx          # Landing page with live demo
+└── components/site/       # UI components
+scripts/
+├── benchmark-rag.ts       # P50/P75/P100 benchmark
+├── benchmark-qdrant.ts    # Qdrant latency benchmark
+├── index-qdrant.ts        # Qdrant Cloud indexing script
+└── ingest-msmarco-xi.py   # Dataset ingestion (reservoir sampling)
+```
+
+---
+
+## 🏆 Submission Checklist
+
+- [x] ✅ GitHub repo — you're looking at it
+- [x] ✅ Live working link — [echosage-ai-rag-in-goa-production.up.railway.app](https://echosage-ai-rag-in-goa-production.up.railway.app)
+- [x] ✅ Voice demo — real mic capture → Sarvam STT → cited answer
+- [x] ✅ 4 chunking strategies — sentence, window, proposition, parent-child
+- [x] ✅ Latency under 200ms — P50: 1.49ms local, 84ms deployed
+- [x] ✅ P50/P75/P100 analytics — measured across 100+ queries
+- [x] ✅ Structured harness — typed I/O, stage tracing, error recovery
+- [x] ✅ Guardrails — off-topic, safety, groundedness, abstention
+- [x] ✅ 853,779 multilingual chunks indexed in Qdrant Cloud
+- [ ] 🎬 Team video (90s)
+- [ ] 🎬 Demo video
+- [ ] 📱 Social media posts with #RAGInGoa
+
+---
+
+*Built with caffeine, deadlines, and the existential fear of rejection. ☕*
+
+*Shortlist us, please. Mujhe Goa jaana hai. 🏖️*

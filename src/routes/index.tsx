@@ -17,7 +17,7 @@ import chunk3d from "@/assets/chunk-3d.png";
 import speed3d from "@/assets/speed-3d.png";
 import footerGoa from "@/assets/footer-goa.jpg";
 import { Tilt } from "@/components/site/tilt";
-import { pipeline, strategies, latency, harness, guardrails } from "@/components/site/data";
+import { pipeline, strategies, latency, cloudLatency, harness, guardrails } from "@/components/site/data";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -51,11 +51,13 @@ const nav = [
 
 const marquee = [
   "#RAGInGoa",
-  "measured latency",
+  "853,779 chunks indexed",
   "Sarvam STT",
-  "MSMARCO-XI",
-  "4 chunk views",
-  "cited or silent",
+  "MSMARCO-XI multilingual",
+  "4 chunking strategies",
+  "cited or silent — no hallucinations allowed",
+  "P50: 84ms deployed",
+  "built with panic & chai",
 ];
 
 function Index() {
@@ -172,7 +174,7 @@ function Hero() {
               live metrics only
             </span>
             <span className="rounded-full border-2 border-primary/40 px-4 py-2 font-mono text-[11px] tracking-[0.18em] uppercase">
-              112,421 multilingual chunks
+              853,779 multilingual chunks
             </span>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
@@ -337,9 +339,12 @@ function Latency() {
           measured, not vibed
         </p>
         <h2 className="text-3d-sun mt-3 font-display text-[clamp(2.2rem,5vw,3.6rem)] leading-[0.9] font-black text-sand">
-          100 measured post-STT runs. Every one under 200ms.
+          We don't guess latency. We measure it. Twice.
         </h2>
-        <div className="relative mt-12 grid gap-5 md:grid-cols-3">
+        <p className="mt-4 font-mono text-xs tracking-[0.14em] text-sun uppercase">
+          💻 local benchmark (in-process, zero network)
+        </p>
+        <div className="relative mt-4 grid gap-5 md:grid-cols-3">
           <img
             src={speed3d}
             alt="3D gauge dial with a surfboard"
@@ -361,11 +366,27 @@ function Latency() {
             </Tilt>
           ))}
         </div>
+        <p className="mt-12 font-mono text-xs tracking-[0.14em] text-sun uppercase">
+          ☁️ deployed benchmark (Railway → HuggingFace API → Qdrant Cloud)
+        </p>
+        <div className="mt-4 grid gap-5 md:grid-cols-3">
+          {cloudLatency.map((l) => (
+            <Tilt key={l.label} max={9}>
+              <div className="gloss rounded-2xl border-2 border-primary/40 bg-primary/10 p-7 shadow-[0_12px_0_0_rgba(0,0,0,.35)]">
+                <p className="font-mono text-xs tracking-[0.25em] text-primary uppercase">{l.label}</p>
+                <p className="text-3d-sun layer-pop mt-3 font-display text-6xl leading-none font-black text-sand">
+                  {l.value}
+                  <span className="text-2xl">ms</span>
+                </p>
+                <p className="mt-2 font-mono text-[11px] text-sand/70">{l.note}</p>
+              </div>
+            </Tilt>
+          ))}
+        </div>
         <p className="mt-12 max-w-2xl font-mono text-xs leading-relaxed text-sand/70">
-          Scope: warm in-process transcript → retrieval → grounded extractive answer. Sarvam STT is
-          a network call and is reported separately in every live demo response; it is not folded
-          into these post-STT percentiles. Warm Qdrant benchmark (50 queries): 55.10 ms P50 and
-          103.38 ms P100 for embedding plus vector search.
+          Local scope: warm in-process transcript → retrieval → grounded extractive answer. 100 queries, 100% under 200ms.
+          Deployed scope: text-in API call over the internet. HuggingFace Inference API for embeddings, Qdrant Cloud for vector search. 50 queries, 96% under 200ms.
+          Sarvam STT is a network call reported separately in every live demo response.
         </p>
       </div>
     </section>
@@ -445,10 +466,14 @@ function Deliverables() {
 const roasts = [
   "Built in 9 days. Judged in 9 seconds. No pressure.",
   "If we don't get shortlisted, at least the website slaps.",
-  "Shortlist us, please. Mujhe Goa aana hai.",
-  "Latency under 200ms. Our sleep schedule? Not so much.",
-  "Powered by caffeine, deadlines, and the fear of rejection.",
-  "Ask badly. We dare you.",
+  "Shortlist us, please. Mujhe Goa jaana hai. 🏖️",
+  "Latency under 200ms. Our sleep schedule? Under 2 hours.",
+  "Powered by caffeine, deadlines, and the existential fear of rejection.",
+  "Ask badly. We dare you. Our guardrails dare you harder.",
+  "853K chunks. 0 hallucinations. ∞ chai consumed.",
+  "Our model abstains more gracefully than most people decline meetings.",
+  "We indexed so hard, Qdrant sent us a thank-you note.",
+  "RAG so clean, even our errors come with citations.",
 ];
 
 function Footer() {

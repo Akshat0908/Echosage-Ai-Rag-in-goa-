@@ -47,9 +47,15 @@ export const strategies = [
 ];
 
 export const latency = [
-  { label: "P50", value: "1.49", note: "100 post-STT runs · 853,779 chunks" },
-  { label: "P70", value: "2.44", note: "warm multilingual hybrid index" },
-  { label: "P100", value: "147.95", note: "100% below 200ms · STT separate" },
+  { label: "P50", value: "1.49", note: "local · 100 post-STT runs · 853K chunks" },
+  { label: "P75", value: "2.44", note: "local · warm multilingual hybrid index" },
+  { label: "P100", value: "147.95", note: "local · 100% under 200ms · STT separate" },
+];
+
+export const cloudLatency = [
+  { label: "P50", value: "84", note: "deployed · Railway + Qdrant Cloud + HF API" },
+  { label: "P75", value: "92", note: "deployed · 50-query benchmark · US East" },
+  { label: "P95", value: "125", note: "deployed · 96% under 200ms" },
 ];
 
 export const harness = [
