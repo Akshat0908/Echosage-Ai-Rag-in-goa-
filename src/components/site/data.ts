@@ -1,23 +1,23 @@
 import { Mic, Waves, Boxes, Database, Sparkles, ShieldCheck } from "lucide-react";
 
 export const pipeline = [
-  { icon: Mic, label: "Voice in", note: "Browser capture, converted to 16kHz WAV" },
-  { icon: Waves, label: "Sarvam STT", note: "Live transcription, hi/en" },
+  { icon: Mic, label: "Voice in", note: "Browser capture, converted to 16kHz WAV. Because we respect bandwidth." },
+  { icon: Waves, label: "Sarvam STT", note: "Live transcription, hi/en. Understands our panic-breathing." },
   {
     icon: Boxes,
     label: "Multi-view chunking",
-    note: "Sentence, window, proposition, parent-child",
+    note: "Sentence, window, proposition, parent-child. Chunking is an art, not a character count.",
   },
-  { icon: Database, label: "Hybrid recall", note: "Local vector + lexical; Qdrant optional" },
-  { icon: Sparkles, label: "Grounded answer", note: "Cited, span-checked" },
-  { icon: ShieldCheck, label: "Guardrail exit", note: "Abstain when unsure" },
+  { icon: Database, label: "Hybrid recall", note: "Local vector + lexical. Qdrant Cloud does the heavy lifting." },
+  { icon: Sparkles, label: "Grounded answer", note: "Cited, span-checked. We don't hallucinate here." },
+  { icon: ShieldCheck, label: "Guardrail exit", note: "Abstains when unsure. A rare trait in AI and politicians." },
 ];
 
 export const strategies = [
   {
     tag: "01",
     name: "Sentence-aware splits",
-    body: "Passages split on sentence boundaries, preserving complete facts instead of cutting through a sentence at an arbitrary character count.",
+    body: "Passages split on sentence boundaries, preserving complete facts. Because cutting a fact in ha... is just terrible UX.",
   },
   {
     tag: "02",
@@ -59,15 +59,15 @@ export const cloudLatency = [
 ];
 
 export const harness = [
-  "Typed boundary: the API validates JSON transcript input with Zod and returns a stable, structured response.",
-  "Explicit stages: validation, retrieval, reranking, grounding, citation and output validation are traceable steps — not one opaque prompt.",
-  "Recoverable voice path: Sarvam retries transient failures up to twice; missing keys and failed transcription return actionable errors.",
-  "Measured runs: each response returns stage timings and the benchmark records percentile latency over 100 mixed queries.",
+  "Typed boundary: the API validates JSON transcript input with Zod. Bad inputs bounce faster than a club bouncer.",
+  "Explicit stages: validation, retrieval, reranking, grounding, and citation are traceable steps — not one opaque 'please answer this' prompt.",
+  "Recoverable voice path: Sarvam retries transient failures. Because networks flake, but the demo must go on.",
+  "Measured runs: every response includes per-stage timings in milliseconds. We don't hide latency; we flaunt it.",
 ];
 
 export const guardrails = [
-  "Off-topic gate — known non-corpus requests are refused before answer extraction.",
-  "Groundedness check — the answer is an extracted retrieved sentence with query-term support, never an ungrounded generated claim.",
-  "Abstention path — low support score returns 'I don't have that in the dataset' with the nearest passages.",
-  "Safety filter — unsafe or PII-seeking inputs short-circuit before STT output reaches the model.",
+  "Off-topic gate — known non-corpus requests are refused before extraction. Don't ask for biryani recipes.",
+  "Groundedness check — the answer is an extracted retrieved sentence, never a generated claim. LLM creativity belongs in poetry, not RAG.",
+  "Abstention path — low support score returns 'I don't have that in the dataset'. Because silence is better than a confident lie.",
+  "Safety filter — unsafe inputs short-circuit immediately. Don't even try it.",
 ];

@@ -434,10 +434,10 @@ function Guardrails() {
 }
 
 const deliverables = [
-  { label: "GitHub repo", note: "pipeline, benchmarks, harness tests" },
-  { label: "Live link", note: "voice demo running on the deployed build" },
-  { label: "Team video", note: "90s — how we work, not what we built" },
-  { label: "Demo video", note: "end-to-end run, mic to cited answer" },
+  { label: "GitHub repo", note: "Pipeline, benchmarks, and a commit history we aren't proud of." },
+  { label: "Live link", note: "Voice demo running on the deployed build. Yes, it actually works." },
+  { label: "Team video", note: "90s — mostly us stressing over latency targets." },
+  { label: "Demo video", note: "End-to-end run, mic to cited answer. No video editing magic here." },
 ];
 
 function Deliverables() {
