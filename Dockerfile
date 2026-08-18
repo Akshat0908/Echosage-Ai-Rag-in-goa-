@@ -9,8 +9,8 @@ RUN npm ci
 # Copy the rest of the source
 COPY . .
 
-# Build the Nitro server (increase heap for the 57MB corpus)
-RUN NODE_OPTIONS="--max-old-space-size=4096" npm run build
+# Build the Nitro server for Node.js (not Cloudflare) with increased heap
+RUN NITRO_PRESET=node-server NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
 EXPOSE 8080
 ENV PORT=8080
