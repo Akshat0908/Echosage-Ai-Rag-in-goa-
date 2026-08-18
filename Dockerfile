@@ -9,6 +9,9 @@ RUN npm ci
 # Copy the rest of the source
 COPY . .
 
+# Cache-bust: forces fresh build on each deploy
+ARG CACHEBUST=1
+
 # Build the Nitro server for Node.js (not Cloudflare) with increased heap
 RUN NITRO_PRESET=node-server NODE_OPTIONS="--max-old-space-size=4096" npm run build
 
