@@ -75,7 +75,8 @@ function extractAnswer(query: string, results: RetrievedChunk[]): string | null 
   if (!results.length) return null;
   const sentences = results.slice(0, 12).flatMap((result) =>
     result.text
-      .split(/(?<=[.!?।])\s+/u)
+      // Split on punctuation followed by space, but NOT if preceded by a single letter (initials)
+      .split(/(?<!(?:^|\s)\p{L})(?<=[.!?।])\s+/u)
       .filter(Boolean)
       .map((sentence) => ({ sentence, sourceQuery: result.query })),
   );
