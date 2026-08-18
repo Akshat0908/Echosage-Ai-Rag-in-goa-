@@ -101,6 +101,24 @@ All candidates are deduped, diversified across source passages, and reranked wit
 
 > *"Knowing when not to answer is the feature."*
 
+
+Some Proof of works
+
+For the local (Mac M4)
+
+<img width="1464" height="707" alt="Screenshot 2026-08-18 at 8 39 55 PM" src="https://github.com/user-attachments/assets/395a5efa-8006-4537-b012-c0268399c9b0" />
+<img width="1466" height="712" alt="Screenshot 2026-08-18 at 8 38 56 PM" src="https://github.com/user-attachments/assets/15c37949-7671-4259-a6fa-b59e82c793f0" />
+<img width="1470" height="800" alt="Screenshot 2026-08-18 at 8 38 33 PM" src="https://github.com/user-attachments/assets/0d64cefb-1146-4763-9a3a-333499c26fed" />
+<img width="1470" height="799" alt="Screenshot 2026-08-18 at 8 37 02 PM" src="https://github.com/user-attachments/assets/175fd2b8-fcb4-4b09-b3b9-06bbfaddb7fc" />
+
+For Cloud (Railway+ Hugging face + Qdrant Cloud)
+
+<img width="1464" height="734" alt="Screenshot 2026-08-18 at 8 42 46 PM" src="https://github.com/user-attachments/assets/f02964b2-b062-497a-b8aa-6e0aa58ae288" />
+<img width="1470" height="720" alt="Screenshot 2026-08-18 at 8 42 17 PM" src="https://github.com/user-attachments/assets/b1bda819-7c4b-4f5a-b0a0-e52c4f499941" />
+<img width="1470" height="797" alt="Screenshot 2026-08-18 at 8 41 47 PM" src="https://github.com/user-attachments/assets/706211d2-2cbe-4dec-b7b5-4917cbd5a85e" />
+<img width="1470" height="800" alt="Screenshot 2026-08-18 at 8 41 16 PM" src="https://github.com/user-attachments/assets/01732e3a-a234-4f86-ac6d-b8443ea41998" />
+
+
 ---
 
 ## 🚀 Quick Start
