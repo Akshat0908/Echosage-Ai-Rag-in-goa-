@@ -2,8 +2,21 @@ import { LocalVectorDb, tokenize } from "./index";
 import { embed } from "./embeddings";
 import { QdrantVectorStore } from "./qdrant";
 import { demoCorpus } from "./seed";
-import { msmarcoCorpus } from "./generated-corpus";
-import type { GuardrailResult, RagResponse, RetrievedChunk, StageTiming } from "./types";
+import type { CorpusRecord, GuardrailResult, RagResponse, RetrievedChunk, StageTiming } from "./types";
+
+// Lazy-load the 57MB corpus only when NOT using Qdrant (saves ~400MB RAM on Railway free tier).
+const USE_QDRANT = process.env.RAG_VECTOR_BACKEND === "qdrant";
+let _corpus: CorpusRecord[] | null = null;
+async function getCorpus(): Promise<CorpusRecord[]> {
+  if (_corpus) return _corpus;
+  if (USE_QDRANT) return (_corpus = []);
+  const { msmarcoCorpus } = await import("./generated-corpus");
+  return (_corpus = msmarcoCorpus);
+}
+// Synchronous accessor for the already-loaded corpus (returns [] before init).
+function corpus(): CorpusRecord[] {
+  return _corpus ?? [];
+}
 
 const UNSAFE =
   /\b(?:kill|murder|bomb|weapon|explosive|self[- ]harm|suicide|child sexual|password|credit card)\b/i;
@@ -126,10 +139,12 @@ function editDistance(left: string, right: string, maximum: number): number {
 }
 
 function resolveDatasetQuery(transcript: string): string | undefined {
+  const c = corpus();
+  if (!c.length) return undefined; // Qdrant-only mode: skip fuzzy match
   const target = lookupKey(transcript);
   if (!target || target.length < 5) return undefined;
   let closest: { query: string; distance: number } | undefined;
-  for (const record of msmarcoCorpus) {
+  for (const record of c) {
     const candidate = lookupKey(record.query);
     if (candidate === target) return record.query;
     const maximum = Math.max(1, Math.floor(target.length * 0.18));
@@ -174,20 +189,35 @@ function createTiming(
 }
 
 export class RagEngine {
-  private readonly db: LocalVectorDb;
+  private db: LocalVectorDb | null = null;
   private readonly qdrant = new QdrantVectorStore();
+  private _ready: Promise<void>;
 
   constructor() {
-    this.db = new LocalVectorDb(msmarcoCorpus.length ? msmarcoCorpus : demoCorpus);
+    this._ready = this.init();
+  }
+
+  private async init(): Promise<void> {
+    const c = await getCorpus();
+    this.db = new LocalVectorDb(c.length ? c : demoCorpus);
+  }
+
+  private ensureDb(): LocalVectorDb {
+    // Fallback to demo corpus if init hasn't finished (shouldn't happen in practice)
+    if (!this.db) this.db = new LocalVectorDb(demoCorpus);
+    return this.db;
   }
 
   get indexStats() {
+    const c = corpus();
     return {
-      chunks: this.db.size,
-      strategies: this.db.strategies,
-      source: msmarcoCorpus.length
-        ? "MSMARCO-XI sampled build"
-        : "demo seed; run ingest-msmarco-xi.py to build MSMARCO-XI artifact",
+      chunks: this.ensureDb().size,
+      strategies: this.ensureDb().strategies,
+      source: USE_QDRANT
+        ? "Qdrant Cloud (MSMARCO-XI)"
+        : c.length
+          ? "MSMARCO-XI sampled build"
+          : "demo seed; run ingest-msmarco-xi.py to build MSMARCO-XI artifact",
     };
   }
 
@@ -205,7 +235,7 @@ export class RagEngine {
     const results =
       preflight.reason === "unsafe" || preflight.reason === "invalid-input"
         ? []
-        : (prefetched?.results ?? this.db.search(transcript, 8));
+        : (prefetched?.results ?? this.ensureDb().search(transcript, 8));
     timings.push(
       prefetched
         ? { name: "qdrant-vector-retrieval", ms: prefetched.retrievalMs, status: "ok" as const }
@@ -290,7 +320,8 @@ export class RagEngine {
   }
 
   async answerProduction(transcript: string): Promise<RagResponse> {
-    if (process.env.RAG_VECTOR_BACKEND !== "qdrant") return this.answer(transcript);
+    await this._ready;
+    if (!USE_QDRANT) return this.answer(transcript);
     const started = now();
     try {
       const routedQuery = resolveDatasetQuery(transcript);
