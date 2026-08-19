@@ -7,10 +7,7 @@
 
 ---
 
-
----
-
-## 🧑‍⚖️ Notes for Judges (Please Read)
+## 🧑⚖️ Notes for Judges (Please Read)
 
 ### 1. No LLM Wrappers Here (How we hit 84ms)
 While many teams are struggling to hit the 200ms target because they pass their context to an external LLM for generation (which inherently takes 1000ms+), we bypassed that bottleneck entirely. We built a purely **Extractive RAG** pipeline. Our system natively extracts the exact grounded sentence from the retrieved text in Node.js. 
@@ -44,8 +41,6 @@ Because we built a strictly **Extractive** pipeline to beat the 200ms limit, our
 When you ask *"What is the side effect of chromium picolinate?"*, an LLM would write a custom paragraph. Our system, however, extracts the exact text from the database that has the highest keyword overlap. If a passage contains the heading *"Common Side Effects of Chromium Picolinate."*, that heading has a near 100% lexical match with the query, so the math dictates it as the "best" answer. 
 
 This means it sometimes extracts the headings of paragraphs instead of synthesizing a conversational answer. **This is not a bug; it is a calculated design choice.** It is the exact trade-off we made to achieve 84ms latency and guarantee 0% hallucinations.
-
-
 
 ---
 
@@ -169,7 +164,6 @@ For Cloud (Railway+ Hugging face + Qdrant Cloud)
 <img width="1470" height="797" alt="Screenshot 2026-08-18 at 8 41 47 PM" src="https://github.com/user-attachments/assets/706211d2-2cbe-4dec-b7b5-4917cbd5a85e" />
 <img width="1470" height="800" alt="Screenshot 2026-08-18 at 8 41 16 PM" src="https://github.com/user-attachments/assets/01732e3a-a234-4f86-ac6d-b8443ea41998" />
 
-
 ---
 
 ## 🚀 Quick Start
@@ -220,7 +214,7 @@ curl -X POST https://echosage-ai-rag-in-goa-production.up.railway.app/api/rag \
 
 ## 📁 Project Structure
 
-```
+```text
 src/
 ├── server/rag/
 │   ├── engine.ts          # RAG engine with harness, guardrails, extraction
@@ -254,12 +248,12 @@ scripts/
 - [x] ✅ Structured harness — typed I/O, stage tracing, error recovery
 - [x] ✅ Guardrails — off-topic, safety, groundedness, abstention
 - [x] ✅ 853,779 multilingual chunks indexed in Qdrant Cloud
-- [ ] 🎬 Team video (90s)
-- [ ] 🎬 Demo video
-- [ ] 📱 Social media posts with #RAGInGoa
+- [x] ✅ Team video (90s)
+- [x] ✅ Demo video
+- [x] ✅ Social media posts with #RAGInGoa
 
 ---
 
 *Built with caffeine, deadlines, and the existential fear of rejection. ☕*
 
-*Shortlist us, please. Mujhe Goa jaana hai. 🏖️*
+*Shortlist us, please. Humhe Goa jaana hai. 🏖️*
