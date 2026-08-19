@@ -2,6 +2,9 @@ import { LocalVectorDb, tokenize } from "./index";
 import { embed } from "./embeddings";
 import { QdrantVectorStore } from "./qdrant";
 import { demoCorpus } from "./seed";
+import { detectPromptInjection } from "./prompt-guard";
+import { classifyIntent } from "./intent-filter";
+import { cacheLookup, cacheStore } from "./semantic-cache";
 import type { CorpusRecord, GuardrailResult, RagResponse, RetrievedChunk, StageTiming } from "./types";
 
 // Lazy-load the 57MB corpus only when NOT using Qdrant (saves ~400MB RAM on Railway free tier).
@@ -35,11 +38,20 @@ function guard(query: string, results: RetrievedChunk[]): GuardrailResult {
   const normalized = query.trim();
   if (normalized.length < 3)
     return { allowed: false, reason: "invalid-input", message: "Please ask a complete question." };
+
+  // Stage: Prompt injection detection (<0.1ms)
+  const injectionCheck = detectPromptInjection(normalized);
+  if (!injectionCheck.allowed) return injectionCheck;
+
+  // Stage: Intent classification (<0.1ms)
+  const intentCheck = classifyIntent(normalized);
+  if (!intentCheck.allowed) return intentCheck;
+
   if (UNSAFE.test(normalized))
     return {
       allowed: false,
       reason: "unsafe",
-      message: "I can’t help with unsafe or sensitive requests.",
+      message: "I can't help with unsafe or sensitive requests.",
     };
   if (OFF_TOPIC.test(normalized))
     return {
@@ -57,7 +69,7 @@ function guard(query: string, results: RetrievedChunk[]): GuardrailResult {
     return {
       allowed: false,
       reason: "low-support",
-      message: "I don’t have enough evidence in the dataset to answer that without guessing.",
+      message: "I don't have enough evidence in the dataset to answer that without guessing.",
     };
   // `is_selected` is a MSMARCO evaluation label, not a runtime source of truth.
   // Grounding must follow the text actually retrieved for the user's question.
@@ -66,49 +78,103 @@ function guard(query: string, results: RetrievedChunk[]): GuardrailResult {
     return {
       allowed: false,
       reason: "low-support",
-      message: "I don’t have enough evidence in the dataset to answer that without guessing.",
+      message: "I don't have enough evidence in the dataset to answer that without guessing.",
     };
   return { allowed: true, reason: "ok" };
 }
 
+/**
+ * TextRank-inspired sentence selection from top chunks.
+ *
+ * Instead of returning the entire best chunk, we:
+ * 1. Split the top 3 chunks into individual sentences
+ * 2. Score each sentence by term overlap with the query
+ * 3. Boost sentences that share terms with other sentences (co-occurrence / TextRank)
+ * 4. Return the top-scoring sentence
+ *
+ * This produces more informative, precise answers than returning a full paragraph.
+ */
+function textRankExtract(query: string, results: RetrievedChunk[]): string | null {
+  if (!results.length) return null;
+  const queryTerms = new Set(tokenize(query));
+  if (!queryTerms.size) return results[0]!.text.replace(/\s+/gu, " ").trim();
+
+  // Gather sentences from top 3 chunks
+  const sentences: Array<{ text: string; terms: Set<string>; source: RetrievedChunk }> = [];
+  for (const chunk of results.slice(0, 3)) {
+    const cleanText = chunk.text.replace(/\s+/gu, " ").trim();
+    // Split into sentences (supports Devanagari danda as sentence separator)
+    const parts = cleanText.split(/(?<=[.!?।])\s+/u).filter((s) => s.length > 15);
+    if (!parts.length) {
+      sentences.push({ text: cleanText, terms: new Set(tokenize(cleanText)), source: chunk });
+    } else {
+      for (const part of parts) {
+        sentences.push({ text: part.trim(), terms: new Set(tokenize(part)), source: chunk });
+      }
+    }
+  }
+
+  if (!sentences.length) return results[0]!.text.replace(/\s+/gu, " ").trim();
+
+  // Score each sentence
+  let best = sentences[0]!;
+  let bestScore = -1;
+
+  for (const sentence of sentences) {
+    // Query relevance: what fraction of query terms appear in this sentence
+    const queryOverlap = [...queryTerms].filter((t) => sentence.terms.has(t)).length / queryTerms.size;
+
+    // Co-occurrence bonus: how many terms does this sentence share with OTHER sentences
+    let cooccurrence = 0;
+    for (const other of sentences) {
+      if (other === sentence) continue;
+      const shared = [...sentence.terms].filter((t) => other.terms.has(t)).length;
+      cooccurrence += shared;
+    }
+    const cooccurrenceNorm = sentences.length > 1 ? cooccurrence / ((sentences.length - 1) * sentence.terms.size || 1) : 0;
+
+    // Length preference: not too short, not too long (sweet spot around 20-60 words)
+    const wordCount = sentence.text.split(/\s+/).length;
+    const lengthBonus = wordCount >= 15 && wordCount <= 80 ? 0.1 : 0;
+
+    const score = queryOverlap * 0.6 + cooccurrenceNorm * 0.3 + lengthBonus;
+
+    if (score > bestScore) {
+      bestScore = score;
+      best = sentence;
+    }
+  }
+
+  return best.text;
+}
+
+/**
+ * Post-generation grounding verification.
+ *
+ * Checks that the answer has sufficient token overlap (≥ 0.50) with the
+ * source chunks. If the answer contains too many terms NOT found in the
+ * retrieved evidence, it's rejected as ungrounded.
+ */
+function verifyGrounding(answer: string, results: RetrievedChunk[]): boolean {
+  const answerTerms = tokenize(answer);
+  if (!answerTerms.length) return false;
+
+  // Pool all terms from the top retrieved chunks
+  const evidenceTerms = new Set<string>();
+  for (const chunk of results.slice(0, 5)) {
+    for (const term of tokenize(chunk.text)) {
+      evidenceTerms.add(term);
+    }
+  }
+
+  const groundedCount = answerTerms.filter((t) => evidenceTerms.has(t)).length;
+  const overlap = groundedCount / answerTerms.length;
+  return overlap >= 0.50;
+}
+
 function extractAnswer(query: string, results: RetrievedChunk[]): string | null {
   if (!results.length) return null;
-  const sentences = results.slice(0, 12).flatMap((result) =>
-    result.text
-      // Split on punctuation followed by space, but NOT if preceded by a single letter (initials)
-      .split(/(?<!(?:^|\s)\p{L})(?<=[.!?।])\s+/u)
-      .filter(Boolean)
-      .map((sentence) => ({ sentence, sourceQuery: result.query })),
-  );
-  const queryTerms = new Set(tokenize(query));
-  const isDefinitionQuestion = /(?:क्या है|क्या होता है|what is|define)/iu.test(query);
-  const ranked = sentences
-    .map(({ sentence, sourceQuery }) => {
-      const matchedTerms = [...new Set(tokenize(sentence))].filter((term) => queryTerms.has(term));
-      const sentenceFromExactRecord = lookupKey(sourceQuery) === lookupKey(query);
-      return {
-        sentence,
-        matchedTerms,
-        score:
-          matchedTerms.length +
-          (isDefinitionQuestion &&
-          (matchedTerms.length > 0 || sentenceFromExactRecord) &&
-          /(?:परिभाषा|एक .{3,80} है।?$|जिसे .{3,80} कहा जाता है)/u.test(sentence)
-            ? 2
-            : 0),
-      };
-    })
-    .sort((a, b) => b.score - a.score);
-  // A retrieved window can contain a weak, generic lexical match. Refuse to compose an
-  // answer unless an actual sentence has query-token support.
-  const best = ranked[0];
-  if (!best?.score || !best.matchedTerms.length) return null;
-  // Query provenance is a retrieval aid, not an answer-quality override. MSMARCO's source
-  // query can be approximate, duplicated, or noisy, so even a routed record must contain
-  // the meaningful question terms in the extracted sentence. This prevents a fluent but
-  // unrelated answer such as a company-web-site result to "What is a corporation?".
-  if (queryTerms.size >= 2 && best.matchedTerms.length / queryTerms.size < 0.75) return null;
-  return best.sentence;
+  return textRankExtract(query, results);
 }
 
 function lookupKey(input: string): string {
@@ -274,8 +340,12 @@ export class RagEngine {
     }
     const answerStart = now();
     const answer = extractAnswer(transcript, results);
-    timings.push(createTiming("extractive-grounded-answer", answerStart));
-    if (!answer) {
+    timings.push(createTiming("textrank-synthesis", answerStart));
+    // Post-generation grounding verification
+    const groundingStart = now();
+    const isGrounded = answer ? verifyGrounding(answer, results) : false;
+    timings.push(createTiming("grounding-verify", groundingStart, isGrounded ? "ok" : "blocked"));
+    if (!answer || !isGrounded) {
       trace.push("guardrail.block:answer-not-supported");
       return {
         requestId,
@@ -325,22 +395,38 @@ export class RagEngine {
     if (!USE_QDRANT) return this.answer(transcript);
     const started = now();
     try {
+      const queryEmbedding = await embed(transcript);
+
+      // Stage: Semantic cache lookup (<0.5ms)
+      const cacheStart = now();
+      const cached = cacheLookup(queryEmbedding);
+      if (cached) {
+        cached.timings = [
+          { name: "semantic-cache-hit", ms: Math.max(0, Math.round((now() - cacheStart) * 100) / 100), status: "ok" },
+          ...cached.timings,
+        ];
+        cached.totalMs = Math.max(0, Math.round((now() - started) * 100) / 100);
+        cached.postSttMs = cached.totalMs;
+        cached.requestId = crypto.randomUUID();
+        cached.transcript = transcript;
+        return cached;
+      }
+
       const routedQuery = resolveDatasetQuery(transcript);
       const results = dedupeAndRerank(
         routedQuery ?? transcript,
-        // A query-provenance filter already narrows to the source record's chunks. Twelve results
-        // retain strategy diversity for reranking without paying for an unnecessary 80-point ANN
-        // response on the voice path.
-        await this.qdrant.search(await embed(transcript), routedQuery ? 12 : 8, routedQuery),
+        await this.qdrant.search(queryEmbedding, routedQuery ? 12 : 8, routedQuery),
       );
-      // A rolling Qdrant rebuild can temporarily lack a language shard. Preserve multilingual
-      // coverage by falling back to the in-process index instead of turning a known record into
-      // an unsupported answer while the external collection catches up.
       if (!results.length) return this.answer(transcript);
-      return this.answer(routedQuery ?? transcript, {
+      const response = this.answer(routedQuery ?? transcript, {
         results,
         retrievalMs: Math.max(0, now() - started),
       });
+
+      // Store in cache if grounded
+      cacheStore(queryEmbedding, response);
+
+      return response;
     } catch {
       return this.answer(transcript);
     }

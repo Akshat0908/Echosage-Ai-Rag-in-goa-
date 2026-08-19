@@ -10,7 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DeluluRouteImport } from './routes/delulu'
+import { Route as DemoVideoRouteImport } from './routes/demo-video'
 import { Route as TeamRouteImport } from './routes/team'
+import { Route as TeamVideoRouteImport } from './routes/team-video'
 import { Route as ApiRagRouteImport } from './routes/api/rag'
 import { Route as ApiRagBenchmarkRouteImport } from './routes/api/rag-benchmark'
 
@@ -19,9 +22,24 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeluluRoute = DeluluRouteImport.update({
+  id: '/delulu',
+  path: '/delulu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoVideoRoute = DemoVideoRouteImport.update({
+  id: '/demo-video',
+  path: '/demo-video',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TeamRoute = TeamRouteImport.update({
   id: '/team',
   path: '/team',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamVideoRoute = TeamVideoRouteImport.update({
+  id: '/team-video',
+  path: '/team-video',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiRagRoute = ApiRagRouteImport.update({
@@ -37,34 +55,68 @@ const ApiRagBenchmarkRoute = ApiRagBenchmarkRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/delulu': typeof DeluluRoute
+  '/demo-video': typeof DemoVideoRoute
   '/team': typeof TeamRoute
+  '/team-video': typeof TeamVideoRoute
   '/api/rag': typeof ApiRagRoute
   '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/delulu': typeof DeluluRoute
+  '/demo-video': typeof DemoVideoRoute
   '/team': typeof TeamRoute
+  '/team-video': typeof TeamVideoRoute
   '/api/rag': typeof ApiRagRoute
   '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/delulu': typeof DeluluRoute
+  '/demo-video': typeof DemoVideoRoute
   '/team': typeof TeamRoute
+  '/team-video': typeof TeamVideoRoute
   '/api/rag': typeof ApiRagRoute
   '/api/rag-benchmark': typeof ApiRagBenchmarkRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
+  fullPaths:
+    | '/'
+    | '/delulu'
+    | '/demo-video'
+    | '/team'
+    | '/team-video'
+    | '/api/rag'
+    | '/api/rag-benchmark'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
-  id: '__root__' | '/' | '/team' | '/api/rag' | '/api/rag-benchmark'
+  to:
+    | '/'
+    | '/delulu'
+    | '/demo-video'
+    | '/team'
+    | '/team-video'
+    | '/api/rag'
+    | '/api/rag-benchmark'
+  id:
+    | '__root__'
+    | '/'
+    | '/delulu'
+    | '/demo-video'
+    | '/team'
+    | '/team-video'
+    | '/api/rag'
+    | '/api/rag-benchmark'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DeluluRoute: typeof DeluluRoute
+  DemoVideoRoute: typeof DemoVideoRoute
   TeamRoute: typeof TeamRoute
+  TeamVideoRoute: typeof TeamVideoRoute
   ApiRagRoute: typeof ApiRagRoute
   ApiRagBenchmarkRoute: typeof ApiRagBenchmarkRoute
 }
@@ -78,11 +130,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/delulu': {
+      id: '/delulu'
+      path: '/delulu'
+      fullPath: '/delulu'
+      preLoaderRoute: typeof DeluluRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo-video': {
+      id: '/demo-video'
+      path: '/demo-video'
+      fullPath: '/demo-video'
+      preLoaderRoute: typeof DemoVideoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/team': {
       id: '/team'
       path: '/team'
       fullPath: '/team'
       preLoaderRoute: typeof TeamRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team-video': {
+      id: '/team-video'
+      path: '/team-video'
+      fullPath: '/team-video'
+      preLoaderRoute: typeof TeamVideoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/rag': {
@@ -104,7 +177,10 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DeluluRoute: DeluluRoute,
+  DemoVideoRoute: DemoVideoRoute,
   TeamRoute: TeamRoute,
+  TeamVideoRoute: TeamVideoRoute,
   ApiRagRoute: ApiRagRoute,
   ApiRagBenchmarkRoute: ApiRagBenchmarkRoute,
 }

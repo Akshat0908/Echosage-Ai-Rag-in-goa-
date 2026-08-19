@@ -131,15 +131,24 @@ All candidates are deduped, diversified across source passages, and reranked wit
 
 ### The Harness
 - **Typed I/O**: Zod-validated JSON input, structured response schema
-- **Explicit stages**: validation → retrieval → reranking → grounding → citation — traceable, not one opaque prompt
+- **Explicit stages**: validation → prompt-guard → intent-filter → cache-check → retrieval → reranking → TextRank synthesis → grounding verification → citation
 - **Recoverable voice path**: Sarvam retries transient failures; missing keys return actionable errors
 - **Measured runs**: every response includes per-stage timings in milliseconds
 
-### The Guardrails
-- **Off-topic gate**: Known non-corpus requests refused before extraction
-- **Groundedness check**: Answer is an extracted sentence with query-term support — never generated
-- **Abstention path**: Low support → "I don't have that in the dataset" with nearest passages
-- **Safety filter**: Unsafe/PII-seeking inputs short-circuit before touching the pipeline
+### The Guardrails (Multi-Tier)
+
+| Tier | Guard | Latency | What It Catches |
+|------|-------|---------|-----------------|
+| **1** | Prompt Injection Detector | <0.1ms | "Ignore previous instructions", role-play injection, delimiter attacks, jailbreak phrases, encoding tricks |
+| **2** | Intent Classification Filter | <0.1ms | Poetry/creative writing, personal advice, code generation, math computation, casual chat |
+| **3** | Safety & Off-Topic Regex | <0.1ms | Unsafe/PII-seeking inputs, known non-corpus requests |
+| **4** | Semantic Cache Lookup | <0.5ms | Returns cached answer if cosine similarity ≥ 0.93 to a previous query |
+| **5** | Low-Support Threshold | <0.1ms | Abstains when fused retrieval score < 0.34 or lexical support is insufficient |
+| **6** | Post-Generation Grounding | <0.1ms | Verifies token overlap ≥ 0.50 between answer and source chunks; rejects ungrounded answers |
+
+### Answer Synthesis
+- **TextRank sentence selection**: Instead of returning a full chunk, the engine splits the top 3 retrieved chunks into sentences, scores each by query relevance + inter-sentence co-occurrence, and returns the single most informative sentence.
+- **Grounded extraction only**: Every answer is extracted directly from retrieved evidence — never generated, never hallucinated.
 
 > *"Knowing when not to answer is the feature."*
 

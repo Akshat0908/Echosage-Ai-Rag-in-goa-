@@ -36,7 +36,7 @@ export type RetrievedChunk = RagChunk & {
 
 export type GuardrailResult = {
   allowed: boolean;
-  reason: "ok" | "unsafe" | "off-topic" | "low-support" | "invalid-input";
+  reason: "ok" | "unsafe" | "off-topic" | "low-support" | "invalid-input" | "prompt-injection";
   message?: string;
 };
 
@@ -65,6 +65,7 @@ export type RagResponse = {
   harness: { attempts: number; recovered: boolean; trace: string[] };
   guardrail: GuardrailResult;
   index: { chunks: number; strategies: ChunkStrategy[]; source: string };
+  cacheHit?: boolean;
 };
 
 export type BenchmarkSummary = {

@@ -34,3 +34,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+public/demo-video.mov
+public/team-video.mp4

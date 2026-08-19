@@ -63,6 +63,11 @@ const marquee = [
 function Index() {
   return (
     <main className="grain min-h-screen overflow-x-hidden bg-background text-foreground">
+      <div className="bg-sun py-2 px-4 border-b-2 border-ink text-center">
+        <Link to="/delulu" className="inline-flex items-center gap-2 font-mono text-xs font-bold tracking-[0.2em] text-sun-foreground uppercase hover:underline">
+          <PartyPopper className="h-4 w-4" /> PLEASE SHORTLIST US. WE ARE DELUSIONAL AND WANT TO GO TO GOA. CLICK HERE FOR PROOF. <PartyPopper className="h-4 w-4" />
+        </Link>
+      </div>
       <Nav />
       <Hero />
       <Marquee />
@@ -178,14 +183,16 @@ function Hero() {
             </span>
           </div>
           <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#demo"
+            <Link
+              to="/demo-video"
               className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-primary px-6 py-3 font-mono text-xs tracking-[0.2em] text-primary-foreground uppercase shadow-[0_5px_0_0_var(--ink)] transition-transform hover:-translate-y-0.5"
             >
               <Play className="h-4 w-4" /> Watch demo
-            </a>
+            </Link>
             <a
-              href="#deliverables"
+              href="https://github.com/Akshat0908/Echosage-Ai-Rag-in-goa-"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-card px-6 py-3 font-mono text-xs tracking-[0.2em] uppercase shadow-[0_5px_0_0_var(--ink)] transition-transform hover:-translate-y-0.5"
             >
               <Github className="h-4 w-4" /> Repo
@@ -434,10 +441,10 @@ function Guardrails() {
 }
 
 const deliverables = [
-  { label: "GitHub repo", note: "Pipeline, benchmarks, and a commit history we aren't proud of." },
-  { label: "Live link", note: "Voice demo running on the deployed build. Yes, it actually works." },
-  { label: "Team video", note: "90s — mostly us stressing over latency targets." },
-  { label: "Demo video", note: "End-to-end run, mic to cited answer. No video editing magic here." },
+  { label: "GitHub repo", href: "https://github.com/Akshat0908/Echosage-Ai-Rag-in-goa-", note: "Pipeline, benchmarks, and a commit history we aren't proud of." },
+  { label: "Live link", href: "https://echosage-ai-rag-in-goa-production.up.railway.app", note: "Voice demo running on the deployed build. Yes, it actually works." },
+  { label: "Team video", href: "/team-video", note: "90s — mostly us stressing over latency targets." },
+  { label: "Demo video", href: "/demo-video", note: "End-to-end run, mic to cited answer. No video editing magic here." },
 ];
 
 function Deliverables() {
@@ -448,16 +455,15 @@ function Deliverables() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {deliverables.map((d) => (
             <Tilt key={d.label} max={8}>
-              <div className="gloss h-full rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_24px_34px_-24px_rgba(0,0,0,.5)]">
-                <h3 className="font-display text-2xl leading-none font-black">{d.label}</h3>
-                <p className="mt-2 font-mono text-[11px] text-muted-foreground">{d.note}</p>
-              </div>
+              <a href={d.href} className="block h-full group">
+                <div className="gloss h-full rounded-2xl border-2 border-ink bg-card p-6 shadow-[0_10px_0_0_var(--ink),0_24px_34px_-24px_rgba(0,0,0,.5)] transition-transform group-hover:-translate-y-1">
+                  <h3 className="font-display text-2xl leading-none font-black group-hover:text-primary">{d.label}</h3>
+                  <p className="mt-2 font-mono text-[11px] text-muted-foreground">{d.note}</p>
+                </div>
+              </a>
             </Tilt>
           ))}
         </div>
-        <p className="mt-8 font-mono text-xs tracking-[0.16em] text-muted-foreground uppercase">
-          deadline · 22 aug 2026, 11:59 pm · every post tagged #RAGInGoa
-        </p>
       </div>
     </section>
   );
@@ -500,12 +506,12 @@ function Footer() {
       <div className="relative mx-auto max-w-7xl px-6 py-24 lg:py-36">
         <div className="flex flex-col items-start justify-between gap-12 lg:flex-row lg:items-end">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 py-1.5 shadow-[0_4px_0_0_var(--ink)]">
+            <Link to="/delulu" className="inline-flex items-center gap-2 rounded-full border-2 border-ink bg-sun px-4 py-1.5 shadow-[0_4px_0_0_var(--ink)] transition-transform hover:-translate-y-0.5 cursor-pointer">
               <PartyPopper className="h-3.5 w-3.5 text-sun-foreground" />
               <span className="font-mono text-[10px] font-bold tracking-[0.2em] text-sun-foreground uppercase">
                 shortlist us or the coconut stays hidden
               </span>
-            </div>
+            </Link>
             <p className="text-3d mt-6 font-display text-[clamp(3rem,9vw,7rem)] leading-[0.8] font-black">
               SEE YOU
               <br />
