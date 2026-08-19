@@ -113,12 +113,15 @@ function DeluluPage() {
 
         {/* Fake CSS Confetti Background */}
         {yesClicked && (
-          <div className="absolute inset-0 pointer-events-none opacity-50 text-4xl flex flex-wrap justify-around content-around z-0">
-            <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
-            <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
-            <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
-            <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
-          </div>
+          <>
+            <div className="absolute inset-0 pointer-events-none opacity-50 text-4xl flex flex-wrap justify-around content-around z-0">
+              <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
+              <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
+              <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
+              <span>🎉</span><span>🏖️</span><span>🍻</span><span>🏄</span><span>🌴</span>
+            </div>
+            <audio autoPlay loop src="/snacks-track.mp3" />
+          </>
         )}
 
         {/* Airplane Banner Animation */}
