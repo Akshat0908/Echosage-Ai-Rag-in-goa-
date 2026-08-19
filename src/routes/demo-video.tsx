@@ -50,12 +50,8 @@ function DemoVideoPage() {
 
         <div className="mx-auto mt-12 overflow-hidden rounded-3xl border-4 border-ink bg-ink shadow-[0_12px_0_0_var(--ink),0_30px_40px_-26px_rgba(0,0,0,.5)]">
           <div className="relative aspect-video w-full bg-black">
-            <video
-              src="/demo-video.mov"
-              controls
-              className="absolute inset-0 h-full w-full object-cover"
-              poster="/poster.jpg" // Optional poster if you have one
-            >
+            <video controls preload="metadata" className="w-full rounded-lg shadow-inner">
+              <source src="/demo-video.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           </div>
