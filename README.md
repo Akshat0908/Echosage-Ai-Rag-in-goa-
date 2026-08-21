@@ -248,12 +248,12 @@ scripts/
 - [x] ✅ Structured harness — typed I/O, stage tracing, error recovery
 - [x] ✅ Guardrails — off-topic, safety, groundedness, abstention
 - [x] ✅ 853,779 multilingual chunks indexed in Qdrant Cloud
-- [x] ✅ Team video (90s)
-- [x] ✅ Demo video
-- [x] ✅ Social media posts with #RAGInGoa
+- [x] 🎬 Team video (90s)
+- [x] 🎬 Demo video
+- [x] 📱 Social media posts with #RAGInGoa
 
 ---
 
 *Built with caffeine, deadlines, and the existential fear of rejection. ☕*
 
-*Shortlist us, please. Humhe Goa jaana hai. 🏖️*
+*Shortlist us, please. Mujhe Goa jaana hai. 🏖️*

@@ -15,8 +15,14 @@ function json(body: unknown, status = 200): Response {
 }
 
 const transcriptRequest = z.object({
-  transcript: z.string().trim().min(3).max(1_500),
-});
+  transcript: z.string().trim().min(3).max(1_500).optional(),
+  query: z.string().trim().min(3).max(1_500).optional(),
+  text: z.string().trim().min(3).max(1_500).optional(),
+  question: z.string().trim().min(3).max(1_500).optional(),
+}).refine(
+  (data) => data.transcript || data.query || data.text || data.question,
+  { message: "One of transcript, query, text, or question is required" },
+);
 
 export const Route = createFileRoute("/api/rag")({
   server: {
@@ -64,7 +70,7 @@ export const Route = createFileRoute("/api/rag")({
                 { error: "A transcript between 3 and 1,500 characters is required" },
                 400,
               );
-            transcript = body.data.transcript;
+            transcript = body.data.transcript || body.data.query || body.data.text || body.data.question || "";
           }
           const result = await ragEngine.answerProduction(transcript);
           return json({
